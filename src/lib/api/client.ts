@@ -12,6 +12,45 @@ export interface ApiError {
 	};
 }
 
+/**
+ * FastAPI default error response format
+ */
+export interface FastAPIError {
+	detail: string | Record<string, unknown>;
+}
+
+/**
+ * Extract error message from various error response formats
+ */
+function extractErrorMessage(errorData: unknown): string {
+	// Handle custom API contract format: { error: { message: "..." } }
+	if (
+		errorData &&
+		typeof errorData === 'object' &&
+		'error' in errorData &&
+		errorData.error &&
+		typeof errorData.error === 'object' &&
+		'message' in errorData.error &&
+		typeof errorData.error.message === 'string'
+	) {
+		return errorData.error.message;
+	}
+
+	// Handle FastAPI default format: { detail: "..." } or { detail: {...} }
+	if (errorData && typeof errorData === 'object' && 'detail' in errorData) {
+		const detail = errorData.detail;
+		if (typeof detail === 'string') {
+			return detail;
+		}
+		if (typeof detail === 'object' && detail !== null) {
+			return JSON.stringify(detail);
+		}
+	}
+
+	// Fallback for unexpected formats
+	return 'API request failed';
+}
+
 export class ApiClient {
 	private baseUrl: string;
 
@@ -32,8 +71,17 @@ export class ApiClient {
 			});
 
 			if (!response.ok) {
-				const error: ApiError = await response.json();
-				throw new Error(error.error.message || 'API request failed');
+				let errorMessage = 'API request failed';
+
+				try {
+					const errorData = await response.json();
+					errorMessage = extractErrorMessage(errorData);
+				} catch (parseError) {
+					// If JSON parsing fails, use status text
+					errorMessage = response.statusText || 'API request failed';
+				}
+
+				throw new Error(errorMessage);
 			}
 
 			return response.json();
