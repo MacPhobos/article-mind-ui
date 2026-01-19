@@ -23,9 +23,9 @@ This document defines the API contract between `article-mind-service` (backend) 
 
 ## Base Configuration
 
-| Environment | Base URL                             |
-| ----------- | ------------------------------------ |
-| Development | `http://localhost:8000`              |
+| Environment | Base URL |
+|-------------|----------|
+| Development | `http://localhost:8000` |
 | Production  | `https://api.article-mind.com` (TBD) |
 
 All endpoints are prefixed with `/api/v1` **except** `/health` and `/openapi.json`.
@@ -61,11 +61,11 @@ All errors follow this shape.
 
 ```typescript
 interface ErrorResponse {
-	error: {
-		code: string; // Machine-readable code
-		message: string; // Human-readable message
-		details?: unknown; // Optional additional context
-	};
+  error: {
+    code: string;       // Machine-readable code
+    message: string;    // Human-readable message
+    details?: unknown;  // Optional additional context
+  };
 }
 ```
 
@@ -83,9 +83,9 @@ Health check endpoint. No authentication required. No `/api/v1` prefix.
 
 ```json
 {
-	"status": "ok",
-	"version": "1.0.0",
-	"database": "connected"
+  "status": "ok",
+  "version": "1.0.0",
+  "database": "connected"
 }
 ```
 
@@ -93,14 +93,13 @@ Health check endpoint. No authentication required. No `/api/v1` prefix.
 
 ```typescript
 interface HealthResponse {
-	status: 'ok' | 'degraded' | 'error';
-	version: string;
-	database: 'connected' | 'disconnected';
+  status: "ok" | "degraded" | "error";
+  version: string;
+  database: "connected" | "disconnected";
 }
 ```
 
 **Status Values:**
-
 - `ok`: All systems operational (database connected)
 - `degraded`: Service running but database unavailable
 - `error`: Critical failure (not currently used, reserved for future)
@@ -108,29 +107,26 @@ interface HealthResponse {
 **Examples:**
 
 Healthy system:
-
 ```json
 {
-	"status": "ok",
-	"version": "1.0.0",
-	"database": "connected"
+  "status": "ok",
+  "version": "1.0.0",
+  "database": "connected"
 }
 ```
 
 Degraded system (database down):
-
 ```json
 {
-	"status": "degraded",
-	"version": "1.0.0",
-	"database": "disconnected"
+  "status": "degraded",
+  "version": "1.0.0",
+  "database": "disconnected"
 }
 ```
 
 **Design Decision: Graceful Degradation**
 
 The health endpoint ALWAYS returns HTTP 200, even when the database is down. This allows monitoring systems to distinguish between:
-
 - **Service completely dead** (connection refused, timeout)
 - **Service alive but degraded** (returns 200 with status: "degraded")
 
@@ -145,44 +141,41 @@ This pattern enables smarter load balancing and alerts.
 Create a new research session. All sessions start in `draft` status.
 
 **Request Body:**
-
 ```json
 {
-	"name": "My Research Project",
-	"description": "Optional description"
+  "name": "My Research Project",
+  "description": "Optional description"
 }
 ```
 
 **Response** `201 Created`:
-
 ```json
 {
-	"id": 1,
-	"name": "My Research Project",
-	"description": "Optional description",
-	"status": "draft",
-	"article_count": 0,
-	"created_at": "2026-01-19T10:30:00Z",
-	"updated_at": "2026-01-19T10:30:00Z"
+  "id": 1,
+  "name": "My Research Project",
+  "description": "Optional description",
+  "status": "draft",
+  "article_count": 0,
+  "created_at": "2026-01-19T10:30:00Z",
+  "updated_at": "2026-01-19T10:30:00Z"
 }
 ```
 
 **Schema:**
-
 ```typescript
 interface CreateSessionRequest {
-	name: string; // Required, 1-255 chars
-	description?: string | null; // Optional, max 5000 chars
+  name: string;                    // Required, 1-255 chars
+  description?: string | null;     // Optional, max 5000 chars
 }
 
 interface SessionResponse {
-	id: number;
-	name: string;
-	description: string | null;
-	status: 'draft' | 'active' | 'completed' | 'archived';
-	article_count: number;
-	created_at: string; // ISO 8601
-	updated_at: string; // ISO 8601
+  id: number;
+  name: string;
+  description: string | null;
+  status: "draft" | "active" | "completed" | "archived";
+  article_count: number;
+  created_at: string;  // ISO 8601
+  updated_at: string;  // ISO 8601
 }
 ```
 
@@ -191,34 +184,31 @@ interface SessionResponse {
 List all non-deleted research sessions.
 
 **Query Parameters:**
-
 - `status` (optional): Filter by status (`draft`, `active`, `completed`, `archived`)
 
 **Response** `200 OK`:
-
 ```json
 {
-	"sessions": [
-		{
-			"id": 1,
-			"name": "Research Project A",
-			"description": "First project",
-			"status": "active",
-			"article_count": 10,
-			"created_at": "2026-01-15T10:30:00Z",
-			"updated_at": "2026-01-19T14:45:00Z"
-		}
-	],
-	"total": 1
+  "sessions": [
+    {
+      "id": 1,
+      "name": "Research Project A",
+      "description": "First project",
+      "status": "active",
+      "article_count": 10,
+      "created_at": "2026-01-15T10:30:00Z",
+      "updated_at": "2026-01-19T14:45:00Z"
+    }
+  ],
+  "total": 1
 }
 ```
 
 **Schema:**
-
 ```typescript
 interface SessionListResponse {
-	sessions: SessionResponse[];
-	total: number; // Total sessions matching filter
+  sessions: SessionResponse[];
+  total: number;  // Total sessions matching filter
 }
 ```
 
@@ -227,21 +217,19 @@ interface SessionListResponse {
 Get a single research session by ID.
 
 **Response** `200 OK`:
-
 ```json
 {
-	"id": 1,
-	"name": "Research Project A",
-	"description": "First project",
-	"status": "active",
-	"article_count": 10,
-	"created_at": "2026-01-15T10:30:00Z",
-	"updated_at": "2026-01-19T14:45:00Z"
+  "id": 1,
+  "name": "Research Project A",
+  "description": "First project",
+  "status": "active",
+  "article_count": 10,
+  "created_at": "2026-01-15T10:30:00Z",
+  "updated_at": "2026-01-19T14:45:00Z"
 }
 ```
 
 **Errors:**
-
 - `404 Not Found`: Session does not exist or is deleted
 
 #### `PATCH /api/v1/sessions/{id}`
@@ -249,39 +237,35 @@ Get a single research session by ID.
 Update session name and/or description. Only provided fields are updated.
 
 **Request Body:**
-
 ```json
 {
-	"name": "Updated Name",
-	"description": "Updated description"
+  "name": "Updated Name",
+  "description": "Updated description"
 }
 ```
 
 **Response** `200 OK`:
-
 ```json
 {
-	"id": 1,
-	"name": "Updated Name",
-	"description": "Updated description",
-	"status": "draft",
-	"article_count": 0,
-	"created_at": "2026-01-19T10:30:00Z",
-	"updated_at": "2026-01-19T10:35:00Z"
+  "id": 1,
+  "name": "Updated Name",
+  "description": "Updated description",
+  "status": "draft",
+  "article_count": 0,
+  "created_at": "2026-01-19T10:30:00Z",
+  "updated_at": "2026-01-19T10:35:00Z"
 }
 ```
 
 **Schema:**
-
 ```typescript
 interface UpdateSessionRequest {
-	name?: string; // Optional, 1-255 chars
-	description?: string; // Optional, max 5000 chars, empty string clears
+  name?: string;         // Optional, 1-255 chars
+  description?: string;  // Optional, max 5000 chars, empty string clears
 }
 ```
 
 **Errors:**
-
 - `404 Not Found`: Session does not exist or is deleted
 - `422 Unprocessable Entity`: Validation error
 
@@ -292,7 +276,6 @@ Soft delete a session. Session data is preserved but hidden from listings.
 **Response** `204 No Content`
 
 **Errors:**
-
 - `404 Not Found`: Session does not exist or is already deleted
 
 #### `POST /api/v1/sessions/{id}/status`
@@ -300,44 +283,39 @@ Soft delete a session. Session data is preserved but hidden from listings.
 Change session status. Validates status transitions.
 
 **Valid Transitions:**
-
 - `draft` → `active`, `archived`
 - `active` → `completed`, `archived`
 - `completed` → `archived`
 - `archived` → (none - archived sessions cannot change status)
 
 **Request Body:**
-
 ```json
 {
-	"status": "active"
+  "status": "active"
 }
 ```
 
 **Response** `200 OK`:
-
 ```json
 {
-	"id": 1,
-	"name": "Research Project A",
-	"description": "First project",
-	"status": "active",
-	"article_count": 10,
-	"created_at": "2026-01-15T10:30:00Z",
-	"updated_at": "2026-01-19T14:45:00Z"
+  "id": 1,
+  "name": "Research Project A",
+  "description": "First project",
+  "status": "active",
+  "article_count": 10,
+  "created_at": "2026-01-15T10:30:00Z",
+  "updated_at": "2026-01-19T14:45:00Z"
 }
 ```
 
 **Schema:**
-
 ```typescript
 interface ChangeStatusRequest {
-	status: 'draft' | 'active' | 'completed' | 'archived';
+  status: "draft" | "active" | "completed" | "archived";
 }
 ```
 
 **Errors:**
-
 - `404 Not Found`: Session does not exist or is deleted
 - `400 Bad Request`: Invalid status transition (e.g., `draft` → `completed`)
 
@@ -359,24 +337,24 @@ interface ChangeStatusRequest {
 
 ### Error Codes
 
-| Code               | HTTP Status | Description                |
-| ------------------ | ----------- | -------------------------- |
-| `VALIDATION_ERROR` | 400         | Invalid request parameters |
-| `NOT_FOUND`        | 404         | Resource not found         |
-| `INTERNAL_ERROR`   | 500         | Server error               |
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `VALIDATION_ERROR` | 400 | Invalid request parameters |
+| `NOT_FOUND` | 404 | Resource not found |
+| `INTERNAL_ERROR` | 500 | Server error |
 
 ---
 
 ## Status Codes
 
-| Code                        | Usage                                 |
-| --------------------------- | ------------------------------------- |
-| `200 OK`                    | Successful GET, PATCH, POST (actions) |
-| `201 Created`               | Successful POST (resource creation)   |
-| `204 No Content`            | Successful DELETE                     |
-| `400 Bad Request`           | Validation error                      |
-| `404 Not Found`             | Resource not found                    |
-| `500 Internal Server Error` | Unexpected error                      |
+| Code | Usage |
+|------|-------|
+| `200 OK` | Successful GET, PATCH, POST (actions) |
+| `201 Created` | Successful POST (resource creation) |
+| `204 No Content` | Successful DELETE |
+| `400 Bad Request` | Validation error |
+| `404 Not Found` | Resource not found |
+| `500 Internal Server Error` | Unexpected error |
 
 ---
 
@@ -399,9 +377,9 @@ Configure via environment variable: `CORS_ORIGINS`
 
 ## Changelog
 
-| Version | Date       | Changes                                |
-| ------- | ---------- | -------------------------------------- |
-| 1.0.0   | 2026-01-18 | Initial contract with /health endpoint |
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | 2026-01-18 | Initial contract with /health endpoint |
 
 ---
 
