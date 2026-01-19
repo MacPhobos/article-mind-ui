@@ -78,3 +78,33 @@ export interface ArticleContentResponse {
 	content_text: string;
 	extraction_status: ExtractionStatus;
 }
+
+// Chat types
+export interface ChatRequest {
+	message: string;
+}
+
+export interface ChatSource {
+	article_id: number;
+	title: string | null;
+	url: string | null;
+}
+
+export interface ChatResponse {
+	message_id: number;
+	content: string;
+	sources: ChatSource[];
+	created_at: string;
+}
+
+export interface ChatMessageResponse {
+	id: number;
+	role: 'user' | 'assistant';
+	content: string;
+	sources: ChatSource[] | null;
+	created_at: string;
+}
+
+export interface ChatHistoryResponse {
+	messages: ChatMessageResponse[];
+}

@@ -7,6 +7,7 @@
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import AddUrlForm from '$lib/components/AddUrlForm.svelte';
 	import FileUploadDropzone from '$lib/components/FileUploadDropzone.svelte';
+	import ChatContainer from '$lib/components/ChatContainer.svelte';
 
 	let sessionId = $derived($page.params.id ?? '');
 	let sessionIdNum = $derived(parseInt(sessionId, 10));
@@ -132,6 +133,11 @@
 				sessionId={sessionIdNum}
 				onArticleDeleted={handleArticleAdded}
 			/>
+		</section>
+
+		<section class="chat-section">
+			<h2>Chat</h2>
+			<ChatContainer sessionId={sessionIdNum} />
 		</section>
 	{/if}
 </div>
@@ -312,9 +318,23 @@
 		padding: 1.5rem;
 		border-radius: 8px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+		margin-bottom: 2rem;
 	}
 
 	.articles-section h2 {
+		margin: 0 0 1rem 0;
+		font-size: 1.25rem;
+		color: #333;
+	}
+
+	.chat-section {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	}
+
+	.chat-section h2 {
 		margin: 0 0 1rem 0;
 		font-size: 1.25rem;
 		color: #333;
