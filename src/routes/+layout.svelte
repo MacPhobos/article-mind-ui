@@ -1,8 +1,10 @@
 <script lang="ts">
-	// Root layout - wraps all pages
+	import TopBar from '$lib/components/TopBar.svelte';
+
 	let { children } = $props();
 </script>
 
+<TopBar />
 <main>
 	{@render children()}
 </main>
@@ -15,9 +17,10 @@
 			system-ui,
 			-apple-system,
 			sans-serif;
+		background: #f8f9fa;
 	}
 
 	main {
-		min-height: 100vh;
+		min-height: calc(100vh - 60px);
 	}
 </style>

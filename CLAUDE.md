@@ -68,6 +68,7 @@ This project consumes the article-mind-service REST API following a **frozen con
 - **Backend contract**: `article-mind-service/docs/api-contract.md`
 
 **CRITICAL**: Both contracts MUST stay synchronized. Any API changes require:
+
 1. Backend updates contract and implementation
 2. Backend deploys to development
 3. Frontend runs `make gen-api` to regenerate types
@@ -99,11 +100,13 @@ make gen-api  # Fetches OpenAPI and generates types
 ```
 
 **What this does:**
+
 - Fetches `http://localhost:8000/openapi.json` from backend
 - Runs: `openapi-typescript http://localhost:8000/openapi.json -o src/lib/api/generated.ts`
 - Overwrites `src/lib/api/generated.ts` with new types
 
 **Requirements:**
+
 - Backend must be running on http://localhost:8000
 - Backend `/openapi.json` endpoint must be accessible
 - `openapi-typescript` package must be installed
@@ -113,13 +116,14 @@ make gen-api  # Fetches OpenAPI and generates types
 ```typescript
 // src/lib/api/generated.ts (auto-generated - DO NOT EDIT MANUALLY)
 export interface HealthResponse {
-  status: "ok" | "degraded" | "error";  // Exact literal types from backend
-  version: string;
-  database: "connected" | "disconnected";
+	status: 'ok' | 'degraded' | 'error'; // Exact literal types from backend
+	version: string;
+	database: 'connected' | 'disconnected';
 }
 ```
 
 **Key benefits:**
+
 - Literal types (`"ok" | "degraded" | "error"`) match backend exactly
 - TypeScript catches invalid values at compile time
 - IDE autocomplete shows exact allowed values
@@ -154,6 +158,7 @@ console.log(health.database); // "connected" | "disconnected"
 - ❌ **NEVER** edit `src/lib/api/generated.ts` manually
 
 **Why?**
+
 - Compile-time safety prevents runtime errors
 - IDE autocomplete shows exact API shape
 - Breaking changes caught during development, not production
@@ -164,9 +169,9 @@ console.log(health.database); // "connected" | "disconnected"
 ```typescript
 // ❌ WRONG - Manual type definition
 interface HealthResponse {
-  status: string;  // Too loose! Should be literal union
-  version: string;
-  database: string;  // Missing constraints
+	status: string; // Too loose! Should be literal union
+	version: string;
+	database: string; // Missing constraints
 }
 
 // ✅ CORRECT - Use generated types
@@ -181,6 +186,7 @@ import type { HealthResponse } from '$lib/api/generated';
 - ❌ **NEVER** suppress API errors silently (no empty catch blocks)
 
 **Why?**
+
 - Consistent error handling across entire app
 - Centralized request/response logging
 - Easy to add authentication headers globally
@@ -196,9 +202,9 @@ const health = await response.json();
 
 // ❌ WRONG - Silent error suppression
 try {
-  const data = await apiClient.get('/api/v1/articles');
+	const data = await apiClient.get('/api/v1/articles');
 } catch (error) {
-  // Silent failure - user has no idea what happened
+	// Silent failure - user has no idea what happened
 }
 
 // ✅ CORRECT - Use API client with error handling
@@ -206,11 +212,11 @@ import { apiClient } from '$lib/api/client';
 import type { HealthResponse } from '$lib/api/generated';
 
 try {
-  const health = await apiClient.get<HealthResponse>('/health');
-  // Handle success
+	const health = await apiClient.get<HealthResponse>('/health');
+	// Handle success
 } catch (error) {
-  console.error('API error:', error);
-  showErrorToast('Could not connect to server');
+	console.error('API error:', error);
+	showErrorToast('Could not connect to server');
 }
 ```
 
@@ -223,6 +229,7 @@ try {
 - ✅ Default to http://localhost:8000 if not set
 
 **Why?**
+
 - Easy environment switching (dev/staging/production)
 - No accidental production API calls in development
 - Deployment flexibility
@@ -256,24 +263,24 @@ import type { HealthResponse } from '$lib/api/generated';
 import { describe, it, expect } from 'vitest';
 
 describe('Health Check', () => {
-  it('should match API contract', () => {
-    // Mock data must match generated type
-    const mockHealth: HealthResponse = {
-      status: "ok",
-      version: "1.0.0",
-      database: "connected"
-    };
+	it('should match API contract', () => {
+		// Mock data must match generated type
+		const mockHealth: HealthResponse = {
+			status: 'ok',
+			version: '1.0.0',
+			database: 'connected'
+		};
 
-    // TypeScript enforces contract at compile time
-    expect(mockHealth.status).toBe("ok");
+		// TypeScript enforces contract at compile time
+		expect(mockHealth.status).toBe('ok');
 
-    // This would fail TypeScript compilation:
-    // const badMock: HealthResponse = {
-    //   status: "invalid", // ❌ Not in "ok" | "degraded" | "error"
-    //   version: "1.0.0",
-    //   database: "connected"
-    // };
-  });
+		// This would fail TypeScript compilation:
+		// const badMock: HealthResponse = {
+		//   status: "invalid", // ❌ Not in "ok" | "degraded" | "error"
+		//   version: "1.0.0",
+		//   database: "connected"
+		// };
+	});
 });
 ```
 
@@ -287,27 +294,27 @@ import type { HealthResponse } from '$lib/api/generated';
 import { describe, it, expect } from 'vitest';
 
 describe('Health API', () => {
-  it('returns valid health response', async () => {
-    const health = await apiClient.get<HealthResponse>('/health');
+	it('returns valid health response', async () => {
+		const health = await apiClient.get<HealthResponse>('/health');
 
-    // Status must be one of allowed values
-    expect(['ok', 'degraded', 'error']).toContain(health.status);
+		// Status must be one of allowed values
+		expect(['ok', 'degraded', 'error']).toContain(health.status);
 
-    // Database must be one of allowed values
-    expect(['connected', 'disconnected']).toContain(health.database);
+		// Database must be one of allowed values
+		expect(['connected', 'disconnected']).toContain(health.database);
 
-    // Version must be semantic versioning
-    expect(health.version).toMatch(/^\d+\.\d+\.\d+$/);
-  });
+		// Version must be semantic versioning
+		expect(health.version).toMatch(/^\d+\.\d+\.\d+$/);
+	});
 
-  it('handles degraded state correctly', async () => {
-    const health = await apiClient.get<HealthResponse>('/health');
+	it('handles degraded state correctly', async () => {
+		const health = await apiClient.get<HealthResponse>('/health');
 
-    // Contract: degraded status implies disconnected database
-    if (health.status === 'degraded') {
-      expect(health.database).toBe('disconnected');
-    }
-  });
+		// Contract: degraded status implies disconnected database
+		if (health.status === 'degraded') {
+			expect(health.database).toBe('disconnected');
+		}
+	});
 });
 ```
 
@@ -318,15 +325,15 @@ import { apiClient } from '$lib/api/client';
 import { describe, it, expect, beforeAll } from 'vitest';
 
 describe('API Integration Tests', () => {
-  beforeAll(async () => {
-    // Ensure backend is running and reachable
-    const health = await apiClient.get('/health');
-    expect(health.status).toBeDefined();
-  });
+	beforeAll(async () => {
+		// Ensure backend is running and reachable
+		const health = await apiClient.get('/health');
+		expect(health.status).toBeDefined();
+	});
 
-  it('all endpoints follow generated types', async () => {
-    // Test that real responses match generated TypeScript types
-  });
+	it('all endpoints follow generated types', async () => {
+		// Test that real responses match generated TypeScript types
+	});
 });
 ```
 
@@ -341,7 +348,7 @@ See `docs/api-contract.md` section "Common Pitfalls" for detailed examples.
 ```typescript
 // ❌ WRONG
 interface HealthResponse {
-  status: string;  // Too loose
+	status: string; // Too loose
 }
 
 // ✅ CORRECT
@@ -387,16 +394,14 @@ import { apiClient } from '$lib/api/client';
 import type { HealthResponse } from '$lib/api/generated';
 
 async function checkApiVersion() {
-  const health = await apiClient.get<HealthResponse>('/health');
-  const [major] = health.version.split('.').map(Number);
+	const health = await apiClient.get<HealthResponse>('/health');
+	const [major] = health.version.split('.').map(Number);
 
-  const EXPECTED_MAJOR = 1;
+	const EXPECTED_MAJOR = 1;
 
-  if (major !== EXPECTED_MAJOR) {
-    throw new Error(
-      `API version mismatch! Expected ${EXPECTED_MAJOR}.x.x, got ${health.version}`
-    );
-  }
+	if (major !== EXPECTED_MAJOR) {
+		throw new Error(`API version mismatch! Expected ${EXPECTED_MAJOR}.x.x, got ${health.version}`);
+	}
 }
 ```
 
