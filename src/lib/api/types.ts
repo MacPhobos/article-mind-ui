@@ -1,5 +1,5 @@
 /**
- * API types for Session Management
+ * API types for Session Management and Article Management
  *
  * These types match the API contract defined in docs/api-contract.md
  * In production, these would be generated from OpenAPI spec using make gen-api
@@ -34,4 +34,47 @@ export interface UpdateSessionRequest {
 
 export interface ChangeStatusRequest {
 	status: SessionStatus;
+}
+
+// Article types
+export type ArticleType = 'url' | 'file';
+export type ExtractionStatus = 'pending' | 'processing' | 'completed' | 'failed';
+
+export interface ArticleResponse {
+	id: number;
+	session_id: number;
+	type: ArticleType;
+	original_url: string | null;
+	original_filename: string | null;
+	title: string | null;
+	extraction_status: ExtractionStatus;
+	has_content: boolean;
+	created_at: string;
+	updated_at: string;
+}
+
+export interface ArticleListResponse {
+	items: ArticleResponse[];
+	total: number;
+	session_id: number;
+}
+
+export interface AddUrlRequest {
+	url: string;
+	title?: string | null;
+}
+
+export interface UploadFileResponse {
+	id: number;
+	filename: string;
+	size_bytes: number;
+	extraction_status: ExtractionStatus;
+	created_at: string;
+}
+
+export interface ArticleContentResponse {
+	id: number;
+	title: string | null;
+	content_text: string;
+	extraction_status: ExtractionStatus;
 }

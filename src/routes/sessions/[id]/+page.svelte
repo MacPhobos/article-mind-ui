@@ -4,11 +4,16 @@
 	import { resolve } from '$app/paths';
 	import { apiClient } from '$lib/api/client';
 	import type { SessionResponse } from '$lib/api/types';
+	import ArticleList from '$lib/components/ArticleList.svelte';
+	import AddUrlForm from '$lib/components/AddUrlForm.svelte';
+	import FileUploadDropzone from '$lib/components/FileUploadDropzone.svelte';
 
-	let sessionId = $derived($page.params.id);
+	let sessionId = $derived($page.params.id ?? '');
+	let sessionIdNum = $derived(parseInt(sessionId, 10));
 	let session = $state<SessionResponse | null>(null);
 	let isLoading = $state(true);
 	let error = $state<string | null>(null);
+	let articleListRef = $state<ArticleList | null>(null);
 
 	// Load session when ID changes
 	$effect(() => {
@@ -51,6 +56,14 @@
 			await loadSession(sessionId);
 		} catch (e) {
 			console.error('Failed to change status:', e);
+		}
+	}
+
+	function handleArticleAdded() {
+		articleListRef?.refresh();
+		// Refresh session to update article count
+		if (sessionId) {
+			loadSession(sessionId);
 		}
 	}
 </script>
@@ -104,9 +117,21 @@
 			</div>
 		</section>
 
+		<section class="add-article-section">
+			<h2>Add Articles</h2>
+			<div class="add-forms">
+				<AddUrlForm sessionId={sessionIdNum} onArticleAdded={handleArticleAdded} />
+				<FileUploadDropzone sessionId={sessionIdNum} onArticleAdded={handleArticleAdded} />
+			</div>
+		</section>
+
 		<section class="articles-section">
 			<h2>Articles</h2>
-			<p class="placeholder">Article management will be implemented in a future plan.</p>
+			<ArticleList
+				bind:this={articleListRef}
+				sessionId={sessionIdNum}
+				onArticleDeleted={handleArticleAdded}
+			/>
 		</section>
 	{/if}
 </div>
@@ -262,6 +287,26 @@
 		background: #f57c00;
 	}
 
+	.add-article-section {
+		background: white;
+		padding: 1.5rem;
+		border-radius: 8px;
+		margin-bottom: 2rem;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	}
+
+	.add-article-section h2 {
+		margin: 0 0 1rem 0;
+		font-size: 1.25rem;
+		color: #333;
+	}
+
+	.add-forms {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	}
+
 	.articles-section {
 		background: white;
 		padding: 1.5rem;
@@ -273,10 +318,5 @@
 		margin: 0 0 1rem 0;
 		font-size: 1.25rem;
 		color: #333;
-	}
-
-	.placeholder {
-		color: #888;
-		font-style: italic;
 	}
 </style>

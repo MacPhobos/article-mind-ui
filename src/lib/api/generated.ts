@@ -4,629 +4,629 @@
  */
 
 export interface paths {
-    "/health": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Health check endpoint
-         * @description Returns service health status including database connectivity. No authentication required. This endpoint does NOT use the /api/v1 prefix as specified in the API contract.
-         */
-        get: operations["health_check_health_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/sessions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List all sessions
-         * @description Get a list of all non-deleted research sessions with optional filtering.
-         */
-        get: operations["list_sessions_api_v1_sessions_get"];
-        put?: never;
-        /**
-         * Create a new session
-         * @description Create a new research session. Sessions start in 'draft' status.
-         */
-        post: operations["create_session_api_v1_sessions_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/sessions/{session_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get a session by ID
-         * @description Retrieve a single research session by its unique identifier.
-         */
-        get: operations["get_session_api_v1_sessions__session_id__get"];
-        put?: never;
-        post?: never;
-        /**
-         * Delete a session (soft delete)
-         * @description Soft delete a session. The session can be recovered by an administrator.
-         */
-        delete: operations["delete_session_api_v1_sessions__session_id__delete"];
-        options?: never;
-        head?: never;
-        /**
-         * Update a session
-         * @description Update session name and/or description. Only provided fields are updated.
-         */
-        patch: operations["update_session_api_v1_sessions__session_id__patch"];
-        trace?: never;
-    };
-    "/api/v1/sessions/{session_id}/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Change session status
-         * @description Transition session to a new status. Valid transitions: draft->active, draft->archived, active->completed, active->archived, completed->archived.
-         */
-        post: operations["change_session_status_api_v1_sessions__session_id__status_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Root
-         * @description Root endpoint.
-         */
-        get: operations["root__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+	'/health': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Health check endpoint
+		 * @description Returns service health status including database connectivity. No authentication required. This endpoint does NOT use the /api/v1 prefix as specified in the API contract.
+		 */
+		get: operations['health_check_health_get'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/api/v1/sessions': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * List all sessions
+		 * @description Get a list of all non-deleted research sessions with optional filtering.
+		 */
+		get: operations['list_sessions_api_v1_sessions_get'];
+		put?: never;
+		/**
+		 * Create a new session
+		 * @description Create a new research session. Sessions start in 'draft' status.
+		 */
+		post: operations['create_session_api_v1_sessions_post'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/api/v1/sessions/{session_id}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get a session by ID
+		 * @description Retrieve a single research session by its unique identifier.
+		 */
+		get: operations['get_session_api_v1_sessions__session_id__get'];
+		put?: never;
+		post?: never;
+		/**
+		 * Delete a session (soft delete)
+		 * @description Soft delete a session. The session can be recovered by an administrator.
+		 */
+		delete: operations['delete_session_api_v1_sessions__session_id__delete'];
+		options?: never;
+		head?: never;
+		/**
+		 * Update a session
+		 * @description Update session name and/or description. Only provided fields are updated.
+		 */
+		patch: operations['update_session_api_v1_sessions__session_id__patch'];
+		trace?: never;
+	};
+	'/api/v1/sessions/{session_id}/status': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/**
+		 * Change session status
+		 * @description Transition session to a new status. Valid transitions: draft->active, draft->archived, active->completed, active->archived, completed->archived.
+		 */
+		post: operations['change_session_status_api_v1_sessions__session_id__status_post'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Root
+		 * @description Root endpoint.
+		 */
+		get: operations['root__get'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /**
-         * ChangeStatusRequest
-         * @description Request schema for changing session status.
-         *
-         *     Valid transitions:
-         *     - draft -> active, archived
-         *     - active -> completed, archived
-         *     - completed -> archived
-         *     - archived -> (none - cannot be changed)
-         */
-        ChangeStatusRequest: {
-            /**
-             * Status
-             * @description New status for the session
-             * @example active
-             * @enum {string}
-             */
-            status: "draft" | "active" | "completed" | "archived";
-        };
-        /**
-         * CreateSessionRequest
-         * @description Request schema for creating a new session.
-         *
-         *     All new sessions start in 'draft' status.
-         */
-        CreateSessionRequest: {
-            /**
-             * Name
-             * @description Session display name
-             * @example My Research Project
-             */
-            name: string;
-            /**
-             * Description
-             * @description Optional session description
-             * @example Research on machine learning algorithms
-             */
-            description?: string | null;
-        };
-        /** HTTPValidationError */
-        HTTPValidationError: {
-            /** Detail */
-            detail?: components["schemas"]["ValidationError"][];
-        };
-        /**
-         * HealthResponse
-         * @description Health check response following API contract specification.
-         *
-         *     See: docs/auxiliary_info/initial_api_contract_instructions.md
-         *
-         *     Design Decision: Using Literal types for status enums
-         *
-         *     Rationale: Literal types provide compile-time type safety and better
-         *     IDE autocomplete compared to string constants or enums. FastAPI's OpenAPI
-         *     generation correctly translates Literal to enum in the spec.
-         *
-         *     Trade-offs:
-         *     - Type Safety: Literal catches typos at type-check time vs runtime Enum
-         *     - OpenAPI: Auto-generates enum constraints in OpenAPI spec
-         *     - Simplicity: No need to import/define separate Enum classes
-         * @example {
-         *       "database": "connected",
-         *       "status": "ok",
-         *       "version": "1.0.0"
-         *     }
-         */
-        HealthResponse: {
-            /**
-             * Status
-             * @description Service health status
-             * @example ok
-             * @enum {string}
-             */
-            status: "ok" | "degraded" | "error";
-            /**
-             * Version
-             * @description API version
-             * @example 1.0.0
-             */
-            version: string;
-            /**
-             * Database
-             * @description Database connection status
-             * @example connected
-             * @enum {string}
-             */
-            database: "connected" | "disconnected";
-        };
-        /**
-         * SessionListResponse
-         * @description Response schema for listing sessions.
-         *
-         *     Includes pagination metadata for future expansion.
-         * @example {
-         *       "sessions": [
-         *         {
-         *           "article_count": 10,
-         *           "created_at": "2026-01-15T10:30:00Z",
-         *           "description": "First project",
-         *           "id": 1,
-         *           "name": "Research Project A",
-         *           "status": "active",
-         *           "updated_at": "2026-01-19T14:45:00Z"
-         *         }
-         *       ],
-         *       "total": 1
-         *     }
-         */
-        SessionListResponse: {
-            /**
-             * Sessions
-             * @description List of sessions
-             */
-            sessions: components["schemas"]["SessionResponse"][];
-            /**
-             * Total
-             * @description Total number of sessions (excluding deleted)
-             * @example 25
-             */
-            total: number;
-        };
-        /**
-         * SessionResponse
-         * @description Response schema for a single session.
-         *
-         *     This is the canonical session representation in the API.
-         *     Used for all endpoints that return session data.
-         * @example {
-         *       "article_count": 15,
-         *       "created_at": "2026-01-15T10:30:00Z",
-         *       "description": "Collecting papers on deep learning",
-         *       "id": 1,
-         *       "name": "Machine Learning Research",
-         *       "status": "active",
-         *       "updated_at": "2026-01-19T14:45:00Z"
-         *     }
-         */
-        SessionResponse: {
-            /**
-             * Id
-             * @description Unique session identifier
-             * @example 1
-             */
-            id: number;
-            /**
-             * Name
-             * @description Session display name
-             * @example My Research Project
-             */
-            name: string;
-            /**
-             * Description
-             * @description Session description
-             * @example Research on machine learning algorithms
-             */
-            description?: string | null;
-            /**
-             * Status
-             * @description Current session status
-             * @example active
-             * @enum {string}
-             */
-            status: "draft" | "active" | "completed" | "archived";
-            /**
-             * Article Count
-             * @description Number of articles in this session
-             * @default 0
-             * @example 12
-             */
-            article_count: number;
-            /**
-             * Created At
-             * Format: date-time
-             * @description When the session was created
-             * @example 2026-01-15T10:30:00Z
-             */
-            created_at: string;
-            /**
-             * Updated At
-             * Format: date-time
-             * @description When the session was last updated
-             * @example 2026-01-19T14:45:00Z
-             */
-            updated_at: string;
-        };
-        /**
-         * UpdateSessionRequest
-         * @description Request schema for updating a session.
-         *
-         *     All fields are optional - only provided fields are updated.
-         */
-        UpdateSessionRequest: {
-            /**
-             * Name
-             * @description New session name
-             * @example Updated Project Name
-             */
-            name?: string | null;
-            /**
-             * Description
-             * @description New session description (empty string to clear)
-             * @example Updated description
-             */
-            description?: string | null;
-        };
-        /** ValidationError */
-        ValidationError: {
-            /** Location */
-            loc: (string | number)[];
-            /** Message */
-            msg: string;
-            /** Error Type */
-            type: string;
-        };
-    };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+	schemas: {
+		/**
+		 * ChangeStatusRequest
+		 * @description Request schema for changing session status.
+		 *
+		 *     Valid transitions:
+		 *     - draft -> active, archived
+		 *     - active -> completed, archived
+		 *     - completed -> archived
+		 *     - archived -> (none - cannot be changed)
+		 */
+		ChangeStatusRequest: {
+			/**
+			 * Status
+			 * @description New status for the session
+			 * @example active
+			 * @enum {string}
+			 */
+			status: 'draft' | 'active' | 'completed' | 'archived';
+		};
+		/**
+		 * CreateSessionRequest
+		 * @description Request schema for creating a new session.
+		 *
+		 *     All new sessions start in 'draft' status.
+		 */
+		CreateSessionRequest: {
+			/**
+			 * Name
+			 * @description Session display name
+			 * @example My Research Project
+			 */
+			name: string;
+			/**
+			 * Description
+			 * @description Optional session description
+			 * @example Research on machine learning algorithms
+			 */
+			description?: string | null;
+		};
+		/** HTTPValidationError */
+		HTTPValidationError: {
+			/** Detail */
+			detail?: components['schemas']['ValidationError'][];
+		};
+		/**
+		 * HealthResponse
+		 * @description Health check response following API contract specification.
+		 *
+		 *     See: docs/auxiliary_info/initial_api_contract_instructions.md
+		 *
+		 *     Design Decision: Using Literal types for status enums
+		 *
+		 *     Rationale: Literal types provide compile-time type safety and better
+		 *     IDE autocomplete compared to string constants or enums. FastAPI's OpenAPI
+		 *     generation correctly translates Literal to enum in the spec.
+		 *
+		 *     Trade-offs:
+		 *     - Type Safety: Literal catches typos at type-check time vs runtime Enum
+		 *     - OpenAPI: Auto-generates enum constraints in OpenAPI spec
+		 *     - Simplicity: No need to import/define separate Enum classes
+		 * @example {
+		 *       "database": "connected",
+		 *       "status": "ok",
+		 *       "version": "1.0.0"
+		 *     }
+		 */
+		HealthResponse: {
+			/**
+			 * Status
+			 * @description Service health status
+			 * @example ok
+			 * @enum {string}
+			 */
+			status: 'ok' | 'degraded' | 'error';
+			/**
+			 * Version
+			 * @description API version
+			 * @example 1.0.0
+			 */
+			version: string;
+			/**
+			 * Database
+			 * @description Database connection status
+			 * @example connected
+			 * @enum {string}
+			 */
+			database: 'connected' | 'disconnected';
+		};
+		/**
+		 * SessionListResponse
+		 * @description Response schema for listing sessions.
+		 *
+		 *     Includes pagination metadata for future expansion.
+		 * @example {
+		 *       "sessions": [
+		 *         {
+		 *           "article_count": 10,
+		 *           "created_at": "2026-01-15T10:30:00Z",
+		 *           "description": "First project",
+		 *           "id": 1,
+		 *           "name": "Research Project A",
+		 *           "status": "active",
+		 *           "updated_at": "2026-01-19T14:45:00Z"
+		 *         }
+		 *       ],
+		 *       "total": 1
+		 *     }
+		 */
+		SessionListResponse: {
+			/**
+			 * Sessions
+			 * @description List of sessions
+			 */
+			sessions: components['schemas']['SessionResponse'][];
+			/**
+			 * Total
+			 * @description Total number of sessions (excluding deleted)
+			 * @example 25
+			 */
+			total: number;
+		};
+		/**
+		 * SessionResponse
+		 * @description Response schema for a single session.
+		 *
+		 *     This is the canonical session representation in the API.
+		 *     Used for all endpoints that return session data.
+		 * @example {
+		 *       "article_count": 15,
+		 *       "created_at": "2026-01-15T10:30:00Z",
+		 *       "description": "Collecting papers on deep learning",
+		 *       "id": 1,
+		 *       "name": "Machine Learning Research",
+		 *       "status": "active",
+		 *       "updated_at": "2026-01-19T14:45:00Z"
+		 *     }
+		 */
+		SessionResponse: {
+			/**
+			 * Id
+			 * @description Unique session identifier
+			 * @example 1
+			 */
+			id: number;
+			/**
+			 * Name
+			 * @description Session display name
+			 * @example My Research Project
+			 */
+			name: string;
+			/**
+			 * Description
+			 * @description Session description
+			 * @example Research on machine learning algorithms
+			 */
+			description?: string | null;
+			/**
+			 * Status
+			 * @description Current session status
+			 * @example active
+			 * @enum {string}
+			 */
+			status: 'draft' | 'active' | 'completed' | 'archived';
+			/**
+			 * Article Count
+			 * @description Number of articles in this session
+			 * @default 0
+			 * @example 12
+			 */
+			article_count: number;
+			/**
+			 * Created At
+			 * Format: date-time
+			 * @description When the session was created
+			 * @example 2026-01-15T10:30:00Z
+			 */
+			created_at: string;
+			/**
+			 * Updated At
+			 * Format: date-time
+			 * @description When the session was last updated
+			 * @example 2026-01-19T14:45:00Z
+			 */
+			updated_at: string;
+		};
+		/**
+		 * UpdateSessionRequest
+		 * @description Request schema for updating a session.
+		 *
+		 *     All fields are optional - only provided fields are updated.
+		 */
+		UpdateSessionRequest: {
+			/**
+			 * Name
+			 * @description New session name
+			 * @example Updated Project Name
+			 */
+			name?: string | null;
+			/**
+			 * Description
+			 * @description New session description (empty string to clear)
+			 * @example Updated description
+			 */
+			description?: string | null;
+		};
+		/** ValidationError */
+		ValidationError: {
+			/** Location */
+			loc: (string | number)[];
+			/** Message */
+			msg: string;
+			/** Error Type */
+			type: string;
+		};
+	};
+	responses: never;
+	parameters: never;
+	requestBodies: never;
+	headers: never;
+	pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    health_check_health_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Service is healthy or degraded */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HealthResponse"];
-                };
-            };
-        };
-    };
-    list_sessions_api_v1_sessions_get: {
-        parameters: {
-            query?: {
-                /** @description Filter by session status */
-                status?: ("draft" | "active" | "completed" | "archived") | null;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of sessions */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SessionListResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    create_session_api_v1_sessions_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateSessionRequest"];
-            };
-        };
-        responses: {
-            /** @description Session created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SessionResponse"];
-                };
-            };
-            /** @description Validation error */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    get_session_api_v1_sessions__session_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                session_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Session found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SessionResponse"];
-                };
-            };
-            /** @description Session not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    delete_session_api_v1_sessions__session_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                session_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Session deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Session not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    update_session_api_v1_sessions__session_id__patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                session_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateSessionRequest"];
-            };
-        };
-        responses: {
-            /** @description Session updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SessionResponse"];
-                };
-            };
-            /** @description Validation error */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Session not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    change_session_status_api_v1_sessions__session_id__status_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                session_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ChangeStatusRequest"];
-            };
-        };
-        responses: {
-            /** @description Status changed */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SessionResponse"];
-                };
-            };
-            /** @description Invalid status transition */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Session not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    root__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        [key: string]: string;
-                    };
-                };
-            };
-        };
-    };
+	health_check_health_get: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Service is healthy or degraded */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HealthResponse'];
+				};
+			};
+		};
+	};
+	list_sessions_api_v1_sessions_get: {
+		parameters: {
+			query?: {
+				/** @description Filter by session status */
+				status?: ('draft' | 'active' | 'completed' | 'archived') | null;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description List of sessions */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['SessionListResponse'];
+				};
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	create_session_api_v1_sessions_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['CreateSessionRequest'];
+			};
+		};
+		responses: {
+			/** @description Session created successfully */
+			201: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['SessionResponse'];
+				};
+			};
+			/** @description Validation error */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	get_session_api_v1_sessions__session_id__get: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				session_id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Session found */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['SessionResponse'];
+				};
+			};
+			/** @description Session not found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	delete_session_api_v1_sessions__session_id__delete: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				session_id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Session deleted */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Session not found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	update_session_api_v1_sessions__session_id__patch: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				session_id: number;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['UpdateSessionRequest'];
+			};
+		};
+		responses: {
+			/** @description Session updated */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['SessionResponse'];
+				};
+			};
+			/** @description Validation error */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Session not found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	change_session_status_api_v1_sessions__session_id__status_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				session_id: number;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['ChangeStatusRequest'];
+			};
+		};
+		responses: {
+			/** @description Status changed */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['SessionResponse'];
+				};
+			};
+			/** @description Invalid status transition */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Session not found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	root__get: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						[key: string]: string;
+					};
+				};
+			};
+		};
+	};
 }
