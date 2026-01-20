@@ -18,7 +18,7 @@ SvelteKit-based frontend for the Article Mind knowledge management system. This 
 
 ```bash
 make install    # Install dependencies
-make dev        # Start dev server (http://localhost:5173)
+make dev        # Start dev server (http://localhost:13000)
 make build      # Build for production
 make preview    # Preview production build
 make test       # Run unit tests
@@ -37,7 +37,7 @@ make gen-api
 npm run gen:api
 ```
 
-This fetches the OpenAPI spec from http://localhost:8000/openapi.json and generates TypeScript types in `src/lib/api/generated.ts`.
+This fetches the OpenAPI spec from http://localhost:13010/openapi.json and generates TypeScript types in `src/lib/api/generated.ts`.
 
 ## Project Structure
 
@@ -101,13 +101,13 @@ make gen-api  # Fetches OpenAPI and generates types
 
 **What this does:**
 
-- Fetches `http://localhost:8000/openapi.json` from backend
-- Runs: `openapi-typescript http://localhost:8000/openapi.json -o src/lib/api/generated.ts`
+- Fetches `http://localhost:13010/openapi.json` from backend
+- Runs: `openapi-typescript http://localhost:13010/openapi.json -o src/lib/api/generated.ts`
 - Overwrites `src/lib/api/generated.ts` with new types
 
 **Requirements:**
 
-- Backend must be running on http://localhost:8000
+- Backend must be running on http://localhost:13010
 - Backend `/openapi.json` endpoint must be accessible
 - `openapi-typescript` package must be installed
 
@@ -226,7 +226,7 @@ try {
 - ❌ **NEVER** hardcode API URLs (http://localhost:8000, production URLs, etc.)
 - ✅ Configure in `.env` for development
 - ✅ Configure in `.env.production` for production
-- ✅ Default to http://localhost:8000 if not set
+- ✅ Default to http://localhost:13010 if not set
 
 **Why?**
 
@@ -239,14 +239,14 @@ try {
 
 ```typescript
 // ❌ WRONG - Hardcoded URL
-const response = await fetch('http://localhost:8000/health');
+const response = await fetch('http://localhost:13010/health');
 
 // ❌ WRONG - Hardcoded production URL
 const API_URL = 'https://api.article-mind.com';
 
 // ✅ CORRECT - Use environment variable
 // In .env
-VITE_API_BASE_URL=http://localhost:8000
+VITE_API_BASE_URL=http://localhost:13010
 
 // In code (apiClient handles this automatically)
 const health = await apiClient.get('/health');
@@ -447,8 +447,8 @@ Before committing API integration code:
 
 - **Full API Contract**: `docs/api-contract.md`
 - **Backend Contract**: `article-mind-service/docs/api-contract.md`
-- **Backend OpenAPI**: http://localhost:8000/openapi.json
-- **Backend Swagger UI**: http://localhost:8000/docs
+- **Backend OpenAPI**: http://localhost:13010/openapi.json
+- **Backend Swagger UI**: http://localhost:13010/docs
 
 ### Quick Commands
 
@@ -592,7 +592,7 @@ describe('MyComponent', () => {
 Configure via `.env` file (never commit `.env`, use `.env.example`):
 
 ```env
-VITE_API_BASE_URL=http://localhost:8000
+VITE_API_BASE_URL=http://localhost:13010
 ```
 
 Access in code:
@@ -625,7 +625,7 @@ export interface HealthResponse {
 ❌ **WRONG:**
 
 ```typescript
-fetch('http://localhost:8000/api/v1/health');
+fetch('http://localhost:13010/api/v1/health');
 ```
 
 ✅ **CORRECT:**
@@ -784,12 +784,12 @@ asdf install
 
 ### Dev Server Won't Start
 
-**Issue:** Port 5173 already in use
+**Issue:** Port 13000 already in use
 
 **Solution:**
 
 ```bash
-lsof -ti:5173 | xargs kill -9
+lsof -ti:13000 | xargs kill -9
 make dev
 ```
 
@@ -809,7 +809,7 @@ make dev  # Generates .svelte-kit directory
 
 **Solution:**
 
-- Ensure backend is running on http://localhost:8000
+- Ensure backend is running on http://localhost:13010
 - Verify `/openapi.json` endpoint is accessible
 - Check `openapi-typescript` is installed
 

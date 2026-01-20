@@ -12,7 +12,7 @@
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"gen:api": "openapi-typescript http://localhost:8000/openapi.json -o src/lib/api/generated.ts",
+		"gen:api": "openapi-typescript http://localhost:13010/openapi.json -o src/lib/api/generated.ts",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
