@@ -38,12 +38,6 @@
 		}
 	}
 
-	function formatMetadataValue(value: unknown): string {
-		if (value === null || value === undefined) return 'N/A';
-		if (typeof value === 'object') return JSON.stringify(value, null, 2);
-		return String(value);
-	}
-
 	// Calculate word count from content
 	let wordCount = $derived(
 		content ? content.content_text.trim().split(/\s+/).filter((w) => w.length > 0).length : 0

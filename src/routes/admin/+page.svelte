@@ -1,6 +1,8 @@
 <script lang="ts">
 	import AdminTaskCard from '$lib/components/admin/AdminTaskCard.svelte';
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
+	import { startReindex, cancelReindex } from '$lib/api/admin';
+	import { subscribeToProgress, type ProgressEvent } from '$lib/api/sse';
 
 	// Modal state
 	let showReindexModal = $state(false);
@@ -8,20 +10,56 @@
 	let reindexProgress = $state(0);
 	let reindexStatus = $state<'idle' | 'running' | 'success' | 'error'>('idle');
 	let reindexError = $state<string | null>(null);
+	let reindexMessage = $state<string | null>(null);
+	let taskId = $state<string | null>(null);
+	let errors = $state<Array<{ item_id: string; error: string }>>([]);
+	let totalArticles = $state<number>(0);
+	let processedArticles = $state<number>(0);
+
+	// SSE cleanup function
+	let unsubscribe: (() => void) | null = null;
+
+	// Cleanup SSE when modal closes
+	$effect(() => {
+		if (!showReindexModal && unsubscribe) {
+			unsubscribe();
+			unsubscribe = null;
+		}
+	});
 
 	function openReindexModal() {
 		showReindexModal = true;
 		reindexStatus = 'idle';
 		reindexProgress = 0;
 		reindexError = null;
+		reindexMessage = null;
+		errors = [];
+		taskId = null;
+		totalArticles = 0;
+		processedArticles = 0;
 	}
 
 	function closeReindexModal() {
-		if (isReindexing) return; // Prevent closing during operation
+		if (isReindexing) {
+			if (!confirm('Reindex is in progress. Close anyway?')) {
+				return;
+			}
+		}
+
+		// Cleanup SSE subscription
+		if (unsubscribe) {
+			unsubscribe();
+			unsubscribe = null;
+		}
+
 		showReindexModal = false;
 		reindexStatus = 'idle';
 		reindexProgress = 0;
 		reindexError = null;
+		reindexMessage = null;
+		errors = [];
+		taskId = null;
+		isReindexing = false;
 	}
 
 	async function handleReindex() {
@@ -29,24 +67,87 @@
 		reindexStatus = 'running';
 		reindexProgress = 0;
 		reindexError = null;
+		reindexMessage = 'Starting reindex...';
+		errors = [];
 
 		try {
-			// TODO: Replace with actual API call when backend endpoint is ready
-			// Simulating progress for now
-			for (let i = 0; i <= 100; i += 10) {
-				await new Promise((resolve) => setTimeout(resolve, 300));
-				reindexProgress = i;
-			}
+			// Start reindex task and get task ID
+			const result = await startReindex({ force: true });
+			taskId = result.task_id;
+			totalArticles = result.total_articles;
+			reindexMessage = `Reindexing ${result.total_articles} articles...`;
 
-			reindexStatus = 'success';
-			setTimeout(() => {
-				closeReindexModal();
-			}, 2000);
+			// Subscribe to SSE progress updates
+			unsubscribe = subscribeToProgress(result.task_id, handleProgress, handleSSEError);
 		} catch (error) {
 			reindexStatus = 'error';
-			reindexError = error instanceof Error ? error.message : 'Failed to reindex embeddings';
-		} finally {
+			reindexError = error instanceof Error ? error.message : 'Failed to start reindex';
+			reindexMessage = null;
 			isReindexing = false;
+		}
+	}
+
+	function handleProgress(event: ProgressEvent) {
+		// Update progress percentage
+		if (event.total_items > 0) {
+			reindexProgress = Math.round((event.processed_items / event.total_items) * 100);
+			processedArticles = event.processed_items;
+			totalArticles = event.total_items;
+		}
+
+		// Update message
+		reindexMessage =
+			event.message ?? `Processed ${event.processed_items} of ${event.total_items} articles`;
+
+		// Update errors list
+		if (event.errors && event.errors.length > 0) {
+			errors = event.errors;
+		}
+
+		// Handle completion
+		if (event.status === 'completed') {
+			reindexStatus = 'success';
+			reindexMessage = `Completed! ${event.processed_items} articles reindexed.`;
+			if (event.failed_items > 0) {
+				reindexMessage += ` (${event.failed_items} failed)`;
+			}
+			isReindexing = false;
+
+			// Auto-close after 3 seconds on success
+			setTimeout(() => {
+				if (reindexStatus === 'success') {
+					closeReindexModal();
+				}
+			}, 3000);
+		} else if (event.status === 'failed') {
+			reindexStatus = 'error';
+			reindexError = event.message ?? 'Reindex failed';
+			reindexMessage = null;
+			isReindexing = false;
+		} else if (event.status === 'cancelled') {
+			reindexStatus = 'error';
+			reindexError = 'Reindex was cancelled';
+			reindexMessage = null;
+			isReindexing = false;
+		}
+	}
+
+	function handleSSEError(error: Event) {
+		console.error('SSE connection error:', error);
+		reindexStatus = 'error';
+		reindexError = 'Connection lost. The reindex may still be running on the server.';
+		reindexMessage = null;
+		isReindexing = false;
+	}
+
+	async function handleCancel() {
+		if (taskId) {
+			try {
+				await cancelReindex(taskId);
+				reindexMessage = 'Cancelling...';
+			} catch (error) {
+				reindexError = error instanceof Error ? error.message : 'Failed to cancel reindex';
+			}
 		}
 	}
 
@@ -105,18 +206,56 @@
 					</div>
 				{:else if reindexStatus === 'running'}
 					<p>Reindexing in progress. Please do not close this window.</p>
-					<ProgressBar value={reindexProgress} label="Progress" />
+					<ProgressBar value={reindexProgress} label="{reindexProgress}%" />
+					{#if reindexMessage}
+						<p class="status-message">{reindexMessage}</p>
+					{/if}
+					{#if totalArticles > 0}
+						<p class="article-count">{processedArticles} / {totalArticles} articles processed</p>
+					{/if}
+					{#if errors.length > 0}
+						<details class="error-details">
+							<summary>{errors.length} error(s) occurred</summary>
+							<ul>
+								{#each errors as error (error.item_id)}
+									<li><strong>Article {error.item_id}:</strong> {error.error}</li>
+								{/each}
+							</ul>
+						</details>
+					{/if}
 				{:else if reindexStatus === 'success'}
 					<div class="success-box">
-						<strong>✓ Success!</strong> Embeddings have been reindexed successfully.
+						<strong>✓ Success!</strong> {reindexMessage || 'Embeddings have been reindexed successfully.'}
 					</div>
 					<ProgressBar value={100} variant="success" />
+					{#if errors.length > 0}
+						<details class="error-details">
+							<summary>{errors.length} error(s) occurred</summary>
+							<ul>
+								{#each errors as error (error.item_id)}
+									<li><strong>Article {error.item_id}:</strong> {error.error}</li>
+								{/each}
+							</ul>
+						</details>
+					{/if}
 				{:else if reindexStatus === 'error'}
 					<div class="error-box">
 						<strong>✗ Error:</strong>
 						{reindexError || 'An unknown error occurred'}
 					</div>
-					<ProgressBar value={reindexProgress} variant="error" />
+					{#if reindexProgress > 0}
+						<ProgressBar value={reindexProgress} variant="error" />
+					{/if}
+					{#if errors.length > 0}
+						<details class="error-details">
+							<summary>{errors.length} error(s) occurred</summary>
+							<ul>
+								{#each errors as error (error.item_id)}
+									<li><strong>Article {error.item_id}:</strong> {error.error}</li>
+								{/each}
+							</ul>
+						</details>
+					{/if}
 				{/if}
 			</div>
 
@@ -124,6 +263,8 @@
 				{#if reindexStatus === 'idle'}
 					<button class="btn-cancel" onclick={closeReindexModal}> Cancel </button>
 					<button class="btn-submit" onclick={handleReindex}> Start Reindexing </button>
+				{:else if reindexStatus === 'running'}
+					<button class="btn-cancel" onclick={handleCancel}> Cancel Operation </button>
 				{:else if reindexStatus === 'error'}
 					<button class="btn-cancel" onclick={closeReindexModal}> Close </button>
 					<button class="btn-submit" onclick={handleReindex}> Retry </button>
@@ -234,6 +375,51 @@
 		margin: 0 0 1rem 0;
 		color: #666;
 		line-height: 1.5;
+	}
+
+	.status-message {
+		font-size: 0.875rem;
+		color: #555;
+		margin-top: 0.75rem;
+	}
+
+	.article-count {
+		font-size: 0.875rem;
+		color: #555;
+		font-weight: 500;
+		margin-top: 0.5rem;
+	}
+
+	.error-details {
+		margin-top: 1rem;
+		border: 1px solid #ef5350;
+		border-radius: 4px;
+		padding: 0.75rem;
+		background: #ffebee;
+	}
+
+	.error-details summary {
+		cursor: pointer;
+		font-weight: 500;
+		color: #d32f2f;
+		user-select: none;
+	}
+
+	.error-details summary:hover {
+		color: #b71c1c;
+	}
+
+	.error-details ul {
+		margin: 0.75rem 0 0 0;
+		padding-left: 1.5rem;
+		list-style: disc;
+	}
+
+	.error-details li {
+		margin: 0.5rem 0;
+		color: #d32f2f;
+		font-size: 0.875rem;
+		line-height: 1.4;
 	}
 
 	.warning-box {
