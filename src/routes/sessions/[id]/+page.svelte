@@ -3,11 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { apiClient } from '$lib/api/client';
-	import type { SessionResponse } from '$lib/api/types';
+	import type { SessionResponse, ArticleResponse } from '$lib/api/types';
 	import ArticleList from '$lib/components/ArticleList.svelte';
 	import AddUrlForm from '$lib/components/AddUrlForm.svelte';
 	import FileUploadDropzone from '$lib/components/FileUploadDropzone.svelte';
 	import ChatContainer from '$lib/components/ChatContainer.svelte';
+	import ArticleContentView from '$lib/components/ArticleContentView.svelte';
 
 	let sessionId = $derived($page.params.id ?? '');
 	let sessionIdNum = $derived(parseInt(sessionId, 10));
@@ -15,6 +16,7 @@
 	let isLoading = $state(true);
 	let error = $state<string | null>(null);
 	let articleListRef = $state<ArticleList | null>(null);
+	let selectedArticle = $state<ArticleResponse | null>(null);
 
 	// Load session when ID changes
 	$effect(() => {
@@ -66,6 +68,14 @@
 		if (sessionId) {
 			loadSession(sessionId);
 		}
+	}
+
+	function handleViewContent(article: ArticleResponse) {
+		selectedArticle = article;
+	}
+
+	function handleCloseContent() {
+		selectedArticle = null;
 	}
 </script>
 
@@ -132,6 +142,7 @@
 				bind:this={articleListRef}
 				sessionId={sessionIdNum}
 				onArticleDeleted={handleArticleAdded}
+				onArticleViewContent={handleViewContent}
 			/>
 		</section>
 
@@ -139,6 +150,14 @@
 			<h2>Chat</h2>
 			<ChatContainer sessionId={sessionIdNum} />
 		</section>
+	{/if}
+
+	{#if selectedArticle}
+		<ArticleContentView
+			sessionId={sessionIdNum}
+			article={selectedArticle}
+			onClose={handleCloseContent}
+		/>
 	{/if}
 </div>
 

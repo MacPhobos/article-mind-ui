@@ -77,6 +77,9 @@ export interface ArticleContentResponse {
 	title: string | null;
 	content_text: string;
 	extraction_status: ExtractionStatus;
+	// Note: Backend has these fields in the model but doesn't currently return them
+	// in ArticleContentResponse. Future enhancement: update backend schema to include:
+	// word_count, reading_time_minutes, extraction_method, extraction_metadata
 }
 
 // Chat types

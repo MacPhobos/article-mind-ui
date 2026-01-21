@@ -7,8 +7,9 @@
 	interface Props {
 		sessionId: number;
 		onArticleDeleted?: () => void;
+		onArticleViewContent?: (article: ArticleResponse) => void;
 	}
-	let { sessionId, onArticleDeleted }: Props = $props();
+	let { sessionId, onArticleDeleted, onArticleViewContent }: Props = $props();
 
 	// State
 	let articles = $state<ArticleResponse[]>([]);
@@ -70,7 +71,11 @@
 	{:else}
 		<div class="articles-grid">
 			{#each articles as article (article.id)}
-				<ArticleCard {article} onDelete={() => handleDelete(article.id)} />
+				<ArticleCard
+					{article}
+					onDelete={() => handleDelete(article.id)}
+					onViewContent={() => onArticleViewContent?.(article)}
+				/>
 			{/each}
 		</div>
 	{/if}

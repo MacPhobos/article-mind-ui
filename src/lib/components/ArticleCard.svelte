@@ -4,8 +4,9 @@
 	interface Props {
 		article: ArticleResponse;
 		onDelete: () => void;
+		onViewContent: () => void;
 	}
-	let { article, onDelete }: Props = $props();
+	let { article, onDelete, onViewContent }: Props = $props();
 
 	// Derived state
 	let displayName = $derived(
@@ -82,10 +83,17 @@
 	{/if}
 
 	<div class="card-footer">
-		<span class="status" style="--status-color: {statusColor}">
-			{statusText}
-		</span>
-		<span class="date">{formatDate(article.created_at)}</span>
+		<div class="footer-left">
+			<span class="status" style="--status-color: {statusColor}">
+				{statusText}
+			</span>
+			<span class="date">{formatDate(article.created_at)}</span>
+		</div>
+		{#if article.extraction_status === 'completed' && article.has_content}
+			<button class="view-btn" onclick={onViewContent} title="View article content">
+				View Content
+			</button>
+		{/if}
 	</div>
 </div>
 
@@ -165,6 +173,14 @@
 		margin-top: auto;
 		padding-top: 0.5rem;
 		border-top: 1px solid #f3f4f6;
+		gap: 0.5rem;
+	}
+
+	.footer-left {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		flex: 1;
 	}
 
 	.status {
@@ -176,5 +192,26 @@
 	.date {
 		font-size: 0.75rem;
 		color: #9ca3af;
+	}
+
+	.view-btn {
+		padding: 0.375rem 0.75rem;
+		background: #3b82f6;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.8rem;
+		font-weight: 500;
+		transition: background 0.2s ease;
+		white-space: nowrap;
+	}
+
+	.view-btn:hover {
+		background: #2563eb;
+	}
+
+	.view-btn:active {
+		background: #1d4ed8;
 	}
 </style>
