@@ -11,6 +11,7 @@
 	// Determine active nav item based on current route
 	let currentPath = $derived($page.url.pathname);
 	let isSessionsActive = $derived(currentPath === '/' || currentPath.startsWith('/sessions'));
+	let isAdminActive = $derived(currentPath.startsWith('/admin'));
 </script>
 
 <nav class="top-bar">
@@ -20,6 +21,9 @@
 	<ul class="nav-menu">
 		<li class:active={isSessionsActive}>
 			<a href={resolve('/')}>Sessions</a>
+		</li>
+		<li class:active={isAdminActive}>
+			<a href={resolve('/admin')}>Admin</a>
 		</li>
 	</ul>
 </nav>
