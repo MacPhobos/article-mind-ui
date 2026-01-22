@@ -143,3 +143,126 @@ export async function getReindexStatus(taskId: string): Promise<TaskStatus> {
 export async function cancelReindex(taskId: string): Promise<void> {
 	await apiClient.post(`/api/v1/admin/reindex/${taskId}/cancel`, {});
 }
+
+/**
+ * Provider configuration response
+ *
+ * Mirrors ProviderConfigResponse from backend:
+ * article-mind-service/schemas/settings.py
+ */
+export interface ProviderConfig {
+	embedding_provider: 'openai' | 'ollama';
+	embedding_provider_available: string[];
+	llm_provider: 'openai' | 'anthropic';
+	llm_provider_available: string[];
+}
+
+/**
+ * Response when updating embedding provider
+ *
+ * Mirrors UpdateEmbeddingProviderResponse from backend:
+ * article-mind-service/schemas/settings.py
+ */
+export interface UpdateEmbeddingProviderResponse {
+	provider: string;
+	reindex_triggered: boolean;
+	warning?: string | null;
+}
+
+/**
+ * Response when updating LLM provider
+ *
+ * Mirrors UpdateLlmProviderResponse from backend:
+ * article-mind-service/schemas/settings.py
+ */
+export interface UpdateLlmProviderResponse {
+	provider: string;
+}
+
+/**
+ * Get current provider configuration
+ *
+ * Returns the currently active embedding and LLM providers, plus the list
+ * of available providers (those with API keys configured).
+ *
+ * Error Handling:
+ * - 500: Failed to read configuration
+ *
+ * @returns Current provider configuration with availability info
+ *
+ * @example
+ * const config = await getProviderConfig();
+ * console.log(`Embedding: ${config.embedding_provider}`);
+ * console.log(`LLM: ${config.llm_provider}`);
+ * console.log(`Available embedding: ${config.embedding_provider_available.join(', ')}`);
+ */
+export async function getProviderConfig(): Promise<ProviderConfig> {
+	return apiClient.get('/api/v1/settings/providers');
+}
+
+/**
+ * Update embedding provider
+ *
+ * Changes the active embedding provider. If dimensions differ between old and
+ * new providers, requires confirm_reindex=true to trigger reindexing.
+ *
+ * Design Decision: Explicit reindex confirmation prevents accidental data loss.
+ * Different embedding providers use different dimensions (OpenAI: 1536, Ollama: 1024).
+ *
+ * Error Handling:
+ * - 400: Invalid provider or provider not available (missing API key)
+ * - 409: Dimension mismatch but confirm_reindex=false (returns warning)
+ * - 500: Failed to update configuration or start reindex
+ *
+ * @param provider - Target embedding provider
+ * @param confirmReindex - Acknowledge reindex requirement if dimensions change
+ * @returns Response with reindex status and any warnings
+ *
+ * @example
+ * // First attempt without confirmation
+ * const result1 = await updateEmbeddingProvider('openai', false);
+ * if (result1.warning) {
+ *   console.warn(result1.warning);
+ *   // Prompt user for confirmation
+ * }
+ *
+ * // Confirmed reindex
+ * const result2 = await updateEmbeddingProvider('openai', true);
+ * if (result2.reindex_triggered) {
+ *   console.log('Reindex started');
+ * }
+ */
+export async function updateEmbeddingProvider(
+	provider: 'openai' | 'ollama',
+	confirmReindex: boolean
+): Promise<UpdateEmbeddingProviderResponse> {
+	return apiClient.patch('/api/v1/settings/providers/embedding', {
+		provider,
+		confirm_reindex: confirmReindex
+	});
+}
+
+/**
+ * Update LLM provider
+ *
+ * Changes the active LLM provider. This is a non-destructive operation that
+ * doesn't require reindexing since it only affects text generation.
+ *
+ * Error Handling:
+ * - 400: Invalid provider or provider not available (missing API key)
+ * - 500: Failed to update configuration
+ *
+ * @param provider - Target LLM provider
+ * @returns Response confirming the new provider
+ *
+ * @example
+ * const result = await updateLlmProvider('anthropic');
+ * console.log(`LLM provider changed to: ${result.provider}`);
+ */
+export async function updateLlmProvider(
+	provider: 'openai' | 'anthropic'
+): Promise<UpdateLlmProviderResponse> {
+	return apiClient.patch('/api/v1/settings/providers/llm', {
+		provider
+	});
+}

@@ -1,11 +1,13 @@
 <script lang="ts">
 	import AdminTaskCard from '$lib/components/admin/AdminTaskCard.svelte';
+	import ProviderSelectionModal from '$lib/components/admin/ProviderSelectionModal.svelte';
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import { startReindex, cancelReindex } from '$lib/api/admin';
 	import { subscribeToProgress, type ProgressEvent } from '$lib/api/sse';
 
 	// Modal state
 	let showReindexModal = $state(false);
+	let showProviderModal = $state(false);
 	let isReindexing = $state(false);
 	let reindexProgress = $state(0);
 	let reindexStatus = $state<'idle' | 'running' | 'success' | 'error'>('idle');
@@ -37,6 +39,14 @@
 		taskId = null;
 		totalArticles = 0;
 		processedArticles = 0;
+	}
+
+	function openProviderModal() {
+		showProviderModal = true;
+	}
+
+	function closeProviderModal() {
+		showProviderModal = false;
 	}
 
 	function closeReindexModal() {
@@ -175,7 +185,21 @@
 			/>
 		</div>
 	</section>
+
+	<section class="tasks-section">
+		<h2>Configuration</h2>
+		<div class="tasks-grid">
+			<AdminTaskCard
+				title="Configure Providers"
+				description="Select which LLM and embedding providers to use. Changing embedding providers requires reindexing all articles."
+				icon="⚙️"
+				onclick={openProviderModal}
+			/>
+		</div>
+	</section>
 </div>
+
+<ProviderSelectionModal isOpen={showProviderModal} onClose={closeProviderModal} />
 
 {#if showReindexModal}
 	<div
@@ -225,7 +249,8 @@
 					{/if}
 				{:else if reindexStatus === 'success'}
 					<div class="success-box">
-						<strong>✓ Success!</strong> {reindexMessage || 'Embeddings have been reindexed successfully.'}
+						<strong>✓ Success!</strong>
+						{reindexMessage || 'Embeddings have been reindexed successfully.'}
 					</div>
 					<ProgressBar value={100} variant="success" />
 					{#if errors.length > 0}

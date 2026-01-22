@@ -4,629 +4,2953 @@
  */
 
 export interface paths {
-	'/health': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Health check endpoint
-		 * @description Returns service health status including database connectivity. No authentication required. This endpoint does NOT use the /api/v1 prefix as specified in the API contract.
-		 */
-		get: operations['health_check_health_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/api/v1/sessions': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List all sessions
-		 * @description Get a list of all non-deleted research sessions with optional filtering.
-		 */
-		get: operations['list_sessions_api_v1_sessions_get'];
-		put?: never;
-		/**
-		 * Create a new session
-		 * @description Create a new research session. Sessions start in 'draft' status.
-		 */
-		post: operations['create_session_api_v1_sessions_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/api/v1/sessions/{session_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get a session by ID
-		 * @description Retrieve a single research session by its unique identifier.
-		 */
-		get: operations['get_session_api_v1_sessions__session_id__get'];
-		put?: never;
-		post?: never;
-		/**
-		 * Delete a session (soft delete)
-		 * @description Soft delete a session. The session can be recovered by an administrator.
-		 */
-		delete: operations['delete_session_api_v1_sessions__session_id__delete'];
-		options?: never;
-		head?: never;
-		/**
-		 * Update a session
-		 * @description Update session name and/or description. Only provided fields are updated.
-		 */
-		patch: operations['update_session_api_v1_sessions__session_id__patch'];
-		trace?: never;
-	};
-	'/api/v1/sessions/{session_id}/status': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Change session status
-		 * @description Transition session to a new status. Valid transitions: draft->active, draft->archived, active->completed, active->archived, completed->archived.
-		 */
-		post: operations['change_session_status_api_v1_sessions__session_id__status_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Root
-		 * @description Root endpoint.
-		 */
-		get: operations['root__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Health check endpoint
+         * @description Returns service health status including database connectivity. No authentication required. This endpoint does NOT use the /api/v1 prefix as specified in the API contract.
+         */
+        get: operations["health_check_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List all sessions
+         * @description Get a list of all non-deleted research sessions with optional filtering.
+         */
+        get: operations["list_sessions_api_v1_sessions_get"];
+        put?: never;
+        /**
+         * Create a new session
+         * @description Create a new research session. Sessions start in 'draft' status.
+         */
+        post: operations["create_session_api_v1_sessions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a session by ID
+         * @description Retrieve a single research session by its unique identifier.
+         */
+        get: operations["get_session_api_v1_sessions__session_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete a session (soft delete)
+         * @description Soft delete a session. The session can be recovered by an administrator.
+         */
+        delete: operations["delete_session_api_v1_sessions__session_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a session
+         * @description Update session name and/or description. Only provided fields are updated.
+         */
+        patch: operations["update_session_api_v1_sessions__session_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change session status
+         * @description Transition session to a new status. Valid transitions: draft->active, draft->archived, active->completed, active->archived, completed->archived.
+         */
+        post: operations["change_session_status_api_v1_sessions__session_id__status_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/reindex": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reindex articles in a session
+         * @description Manually trigger reindexing of articles in a session. This queues articles that have completed extraction but failed or are pending embedding. Useful for recovering articles extracted before auto-embedding was enabled.
+         */
+        post: operations["reindex_session_api_v1_sessions__session_id__reindex_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/articles/url": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add article from URL
+         * @description Add an article to the session by providing its URL. Content extraction happens asynchronously.
+         */
+        post: operations["add_url_article_api_v1_sessions__session_id__articles_url_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/articles/upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload article file
+         * @description Upload a file (PDF, DOCX, TXT, etc.) as an article. Content extraction happens asynchronously.
+         */
+        post: operations["upload_article_file_api_v1_sessions__session_id__articles_upload_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/articles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List articles in session
+         * @description Get all active articles in a research session.
+         */
+        get: operations["list_articles_api_v1_sessions__session_id__articles_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/articles/{article_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get article details
+         * @description Get detailed information about a specific article.
+         */
+        get: operations["get_article_api_v1_sessions__session_id__articles__article_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete article
+         * @description Soft delete an article from the session.
+         */
+        delete: operations["delete_article_api_v1_sessions__session_id__articles__article_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/articles/{article_id}/content": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get extracted content
+         * @description Get the extracted text content of an article. Only available when extraction is completed.
+         */
+        get: operations["get_article_content_api_v1_sessions__session_id__articles__article_id__content_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Search session knowledge
+         * @description Search the session's indexed articles using natural language queries.
+         *
+         *     Supports three search modes:
+         *     - **hybrid** (default): Combines semantic and keyword search for best results
+         *     - **dense**: Semantic similarity search only (good for concept queries)
+         *     - **sparse**: BM25 keyword search only (good for exact matches)
+         *
+         *     Returns ranked results with source attribution for citations.
+         *
+         *     **Performance:** Typical latency <200ms for 1000 chunks.
+         *
+         *     **Requirements:**
+         *     - Session must have indexed articles (via R5 embedding pipeline)
+         *     - For hybrid/dense modes, query embedding is generated automatically
+         *     - For sparse mode only, works with BM25 index alone
+         */
+        post: operations["search_session_api_v1_sessions__session_id__search_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/search/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get search index statistics
+         * @description Returns statistics about the session's search index.
+         */
+        get: operations["search_stats_api_v1_sessions__session_id__search_stats_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/chat": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send chat message and get response
+         * @description Send a question about the session's content and receive an LLM-generated
+         *     answer with source citations.
+         *
+         *     The RAG pipeline:
+         *     1. Retrieves relevant content chunks from the session's articles
+         *     2. Augments the prompt with context
+         *     3. Generates an answer using the configured LLM
+         *     4. Returns the response with inline citations [1], [2], etc.
+         *
+         *     Both the user message and assistant response are persisted to the database.
+         */
+        post: operations["send_chat_message_api_v1_sessions__session_id__chat_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sessions/{session_id}/chat/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get chat history
+         * @description Retrieve all chat messages for a session in chronological order.
+         */
+        get: operations["get_chat_history_api_v1_sessions__session_id__chat_history_get"];
+        put?: never;
+        post?: never;
+        /**
+         * Clear chat history
+         * @description Delete all chat messages for a session.
+         */
+        delete: operations["clear_chat_history_api_v1_sessions__session_id__chat_history_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reindex": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Start Admin Reindex
+         * @description Start reindexing all or selected sessions.
+         *
+         *     This endpoint starts a background task to regenerate embeddings for
+         *     articles across sessions. Progress can be tracked via SSE endpoint.
+         *
+         *     Query Strategy:
+         *     - If session_ids provided: Only reindex those sessions
+         *     - If session_ids is None: Reindex ALL sessions
+         *     - If force=True: Reindex even if embedding_status="completed"
+         *     - If force=False: Only reindex pending/failed embeddings
+         *
+         *     Args:
+         *         request: Reindex request with session_ids and force flags
+         *         background_tasks: FastAPI background task manager
+         *         db: Database session (dependency injected)
+         *
+         *     Returns:
+         *         AdminReindexResponse with task_id and progress_url
+         *
+         *     Raises:
+         *         HTTPException: 404 if no articles found to reindex
+         *
+         *     Example:
+         *         POST /api/v1/admin/reindex
+         *         {
+         *           "session_ids": [1, 2, 3],
+         *           "force": false
+         *         }
+         *
+         *         Response:
+         *         {
+         *           "task_id": "550e8400-e29b-41d4-a716-446655440000",
+         *           "total_sessions": 3,
+         *           "total_articles": 150,
+         *           "progress_url": "/api/v1/admin/reindex/550e8400-.../progress"
+         *         }
+         */
+        post: operations["start_admin_reindex_api_v1_admin_reindex_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reindex/{task_id}/progress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stream Reindex Progress
+         * @description Stream reindex progress via Server-Sent Events (SSE).
+         *
+         *     This endpoint provides real-time progress updates for a reindex task.
+         *     Events are streamed as Server-Sent Events (SSE) which clients can
+         *     consume using EventSource API.
+         *
+         *     SSE Event Format:
+         *     - event: "progress" | "complete"
+         *     - data: JSON-serialized TaskProgress model
+         *
+         *     Args:
+         *         task_id: Task ID from start_admin_reindex response
+         *
+         *     Returns:
+         *         EventSourceResponse streaming TaskProgress updates
+         *
+         *     Raises:
+         *         HTTPException: 404 if task_id not found
+         *
+         *     Example:
+         *         GET /api/v1/admin/reindex/550e8400-.../progress
+         *
+         *         Event Stream:
+         *         event: progress
+         *         data: {"task_id": "550e8400-...", "status": "running", "processed_items": 50, ...}
+         *
+         *         event: complete
+         *         data: {"task_id": "550e8400-...", "status": "completed", "processed_items": 100, ...}
+         *
+         *     Client Usage (JavaScript):
+         *         const eventSource = new EventSource('/api/v1/admin/reindex/task-id/progress');
+         *         eventSource.addEventListener('progress', (e) => {
+         *           const data = JSON.parse(e.data);
+         *           updateProgressBar(data.processed_items / data.total_items);
+         *         });
+         *         eventSource.addEventListener('complete', (e) => {
+         *           const data = JSON.parse(e.data);
+         *           showCompletionMessage(data);
+         *           eventSource.close();
+         *         });
+         */
+        get: operations["stream_reindex_progress_api_v1_admin_reindex__task_id__progress_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reindex/{task_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Reindex Status
+         * @description Get current status of a reindex task (polling endpoint).
+         *
+         *     This endpoint provides a snapshot of task state for clients that
+         *     cannot use SSE. For real-time updates, use the SSE endpoint instead.
+         *
+         *     Args:
+         *         task_id: Task ID from start_admin_reindex response
+         *
+         *     Returns:
+         *         TaskStatusResponse with current task state
+         *
+         *     Raises:
+         *         HTTPException: 404 if task_id not found
+         *
+         *     Example:
+         *         GET /api/v1/admin/reindex/550e8400-.../
+         *
+         *         Response:
+         *         {
+         *           "task_id": "550e8400-...",
+         *           "task_type": "reindex",
+         *           "status": "running",
+         *           "total_items": 100,
+         *           "processed_items": 50,
+         *           "failed_items": 2,
+         *           "progress_percent": 50,
+         *           "message": "Processing article 50 of 100",
+         *           "errors": [{"item_id": "123", "error": "timeout"}]
+         *         }
+         */
+        get: operations["get_reindex_status_api_v1_admin_reindex__task_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/reindex/{task_id}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cancel Reindex
+         * @description Request cancellation of a running reindex task.
+         *
+         *     This endpoint sets a cancellation flag that the background task will
+         *     check periodically. Cancellation is cooperative - the task must check
+         *     the flag and gracefully stop.
+         *
+         *     Cancellation Behavior:
+         *     - Ongoing article processing will complete
+         *     - No new articles will be processed
+         *     - Already-processed articles remain reindexed
+         *     - Task status will be updated to "cancelled"
+         *
+         *     Args:
+         *         task_id: Task ID from start_admin_reindex response
+         *
+         *     Returns:
+         *         Status message indicating cancellation requested
+         *
+         *     Raises:
+         *         HTTPException: 404 if task_id not found or already completed
+         *
+         *     Example:
+         *         POST /api/v1/admin/reindex/550e8400-.../cancel
+         *
+         *         Response:
+         *         {
+         *           "status": "cancellation_requested",
+         *           "task_id": "550e8400-..."
+         *         }
+         */
+        post: operations["cancel_reindex_api_v1_admin_reindex__task_id__cancel_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/settings/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Provider Config
+         * @description Get current provider configuration and available options.
+         *
+         *     Returns the currently selected embedding and LLM providers, along with
+         *     lists of available providers based on configured API keys in .env.
+         *
+         *     Available providers depend on API key configuration:
+         *     - openai: Requires OPENAI_API_KEY
+         *     - anthropic: Requires ANTHROPIC_API_KEY
+         *     - ollama: Always available (local, no API key needed)
+         *
+         *     Returns:
+         *         ProviderConfigResponse with current and available providers
+         *
+         *     Example:
+         *         GET /api/v1/settings/providers
+         *
+         *         Response:
+         *         {
+         *           "embedding_provider": "openai",
+         *           "embedding_provider_available": ["openai", "ollama"],
+         *           "llm_provider": "openai",
+         *           "llm_provider_available": ["openai", "anthropic"]
+         *         }
+         */
+        get: operations["get_provider_config_api_v1_settings_providers_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/settings/providers/embedding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Embedding Provider Endpoint
+         * @description Update embedding provider with optional reindex trigger.
+         *
+         *     Switching embedding providers may require reindexing if embedding dimensions
+         *     change. Different providers use different dimension sizes:
+         *     - OpenAI text-embedding-3-small: 1536 dimensions
+         *     - Ollama nomic-embed-text: 1024 dimensions
+         *
+         *     If dimensions change without confirm_reindex=True, returns 400 error.
+         *     If confirm_reindex=True, updates provider and triggers background reindex.
+         *
+         *     Args:
+         *         request: UpdateEmbeddingProviderRequest with provider and confirm_reindex
+         *         background_tasks: FastAPI background task manager
+         *         db: Database session (dependency injected)
+         *
+         *     Returns:
+         *         UpdateEmbeddingProviderResponse with provider, reindex status, and warning
+         *
+         *     Raises:
+         *         HTTPException: 400 if provider not available or dimension mismatch without confirmation
+         *
+         *     Example (No Dimension Change):
+         *         PATCH /api/v1/settings/providers/embedding
+         *         {
+         *           "provider": "openai",
+         *           "confirm_reindex": false
+         *         }
+         *
+         *         Response:
+         *         {
+         *           "provider": "openai",
+         *           "reindex_triggered": false,
+         *           "warning": null
+         *         }
+         *
+         *     Example (Dimension Change With Confirmation):
+         *         PATCH /api/v1/settings/providers/embedding
+         *         {
+         *           "provider": "ollama",
+         *           "confirm_reindex": true
+         *         }
+         *
+         *         Response:
+         *         {
+         *           "provider": "ollama",
+         *           "reindex_triggered": true,
+         *           "warning": null
+         *         }
+         *
+         *     Example (Dimension Change Without Confirmation):
+         *         PATCH /api/v1/settings/providers/embedding
+         *         {
+         *           "provider": "ollama",
+         *           "confirm_reindex": false
+         *         }
+         *
+         *         Response: 400 Bad Request
+         *         {
+         *           "detail": "Embedding dimension change detected (1536 -> 1024). Set confirm_reindex=true to proceed with reindexing."
+         *         }
+         */
+        patch: operations["update_embedding_provider_endpoint_api_v1_settings_providers_embedding_patch"];
+        trace?: never;
+    };
+    "/api/v1/settings/providers/llm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Llm Provider Endpoint
+         * @description Update LLM provider (no reindex needed).
+         *
+         *     Switching LLM providers does not require reindexing because embeddings
+         *     are not affected. This is a simple provider switch operation.
+         *
+         *     Args:
+         *         request: UpdateLlmProviderRequest with provider
+         *         db: Database session (dependency injected)
+         *
+         *     Returns:
+         *         UpdateLlmProviderResponse with new provider
+         *
+         *     Raises:
+         *         HTTPException: 400 if provider not available (missing API key)
+         *
+         *     Example:
+         *         PATCH /api/v1/settings/providers/llm
+         *         {
+         *           "provider": "anthropic"
+         *         }
+         *
+         *         Response:
+         *         {
+         *           "provider": "anthropic"
+         *         }
+         */
+        patch: operations["update_llm_provider_endpoint_api_v1_settings_providers_llm_patch"];
+        trace?: never;
+    };
+    "/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Root
+         * @description Root endpoint.
+         */
+        get: operations["root__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-	schemas: {
-		/**
-		 * ChangeStatusRequest
-		 * @description Request schema for changing session status.
-		 *
-		 *     Valid transitions:
-		 *     - draft -> active, archived
-		 *     - active -> completed, archived
-		 *     - completed -> archived
-		 *     - archived -> (none - cannot be changed)
-		 */
-		ChangeStatusRequest: {
-			/**
-			 * Status
-			 * @description New status for the session
-			 * @example active
-			 * @enum {string}
-			 */
-			status: 'draft' | 'active' | 'completed' | 'archived';
-		};
-		/**
-		 * CreateSessionRequest
-		 * @description Request schema for creating a new session.
-		 *
-		 *     All new sessions start in 'draft' status.
-		 */
-		CreateSessionRequest: {
-			/**
-			 * Name
-			 * @description Session display name
-			 * @example My Research Project
-			 */
-			name: string;
-			/**
-			 * Description
-			 * @description Optional session description
-			 * @example Research on machine learning algorithms
-			 */
-			description?: string | null;
-		};
-		/** HTTPValidationError */
-		HTTPValidationError: {
-			/** Detail */
-			detail?: components['schemas']['ValidationError'][];
-		};
-		/**
-		 * HealthResponse
-		 * @description Health check response following API contract specification.
-		 *
-		 *     See: docs/auxiliary_info/initial_api_contract_instructions.md
-		 *
-		 *     Design Decision: Using Literal types for status enums
-		 *
-		 *     Rationale: Literal types provide compile-time type safety and better
-		 *     IDE autocomplete compared to string constants or enums. FastAPI's OpenAPI
-		 *     generation correctly translates Literal to enum in the spec.
-		 *
-		 *     Trade-offs:
-		 *     - Type Safety: Literal catches typos at type-check time vs runtime Enum
-		 *     - OpenAPI: Auto-generates enum constraints in OpenAPI spec
-		 *     - Simplicity: No need to import/define separate Enum classes
-		 * @example {
-		 *       "database": "connected",
-		 *       "status": "ok",
-		 *       "version": "1.0.0"
-		 *     }
-		 */
-		HealthResponse: {
-			/**
-			 * Status
-			 * @description Service health status
-			 * @example ok
-			 * @enum {string}
-			 */
-			status: 'ok' | 'degraded' | 'error';
-			/**
-			 * Version
-			 * @description API version
-			 * @example 1.0.0
-			 */
-			version: string;
-			/**
-			 * Database
-			 * @description Database connection status
-			 * @example connected
-			 * @enum {string}
-			 */
-			database: 'connected' | 'disconnected';
-		};
-		/**
-		 * SessionListResponse
-		 * @description Response schema for listing sessions.
-		 *
-		 *     Includes pagination metadata for future expansion.
-		 * @example {
-		 *       "sessions": [
-		 *         {
-		 *           "article_count": 10,
-		 *           "created_at": "2026-01-15T10:30:00Z",
-		 *           "description": "First project",
-		 *           "id": 1,
-		 *           "name": "Research Project A",
-		 *           "status": "active",
-		 *           "updated_at": "2026-01-19T14:45:00Z"
-		 *         }
-		 *       ],
-		 *       "total": 1
-		 *     }
-		 */
-		SessionListResponse: {
-			/**
-			 * Sessions
-			 * @description List of sessions
-			 */
-			sessions: components['schemas']['SessionResponse'][];
-			/**
-			 * Total
-			 * @description Total number of sessions (excluding deleted)
-			 * @example 25
-			 */
-			total: number;
-		};
-		/**
-		 * SessionResponse
-		 * @description Response schema for a single session.
-		 *
-		 *     This is the canonical session representation in the API.
-		 *     Used for all endpoints that return session data.
-		 * @example {
-		 *       "article_count": 15,
-		 *       "created_at": "2026-01-15T10:30:00Z",
-		 *       "description": "Collecting papers on deep learning",
-		 *       "id": 1,
-		 *       "name": "Machine Learning Research",
-		 *       "status": "active",
-		 *       "updated_at": "2026-01-19T14:45:00Z"
-		 *     }
-		 */
-		SessionResponse: {
-			/**
-			 * Id
-			 * @description Unique session identifier
-			 * @example 1
-			 */
-			id: number;
-			/**
-			 * Name
-			 * @description Session display name
-			 * @example My Research Project
-			 */
-			name: string;
-			/**
-			 * Description
-			 * @description Session description
-			 * @example Research on machine learning algorithms
-			 */
-			description?: string | null;
-			/**
-			 * Status
-			 * @description Current session status
-			 * @example active
-			 * @enum {string}
-			 */
-			status: 'draft' | 'active' | 'completed' | 'archived';
-			/**
-			 * Article Count
-			 * @description Number of articles in this session
-			 * @default 0
-			 * @example 12
-			 */
-			article_count: number;
-			/**
-			 * Created At
-			 * Format: date-time
-			 * @description When the session was created
-			 * @example 2026-01-15T10:30:00Z
-			 */
-			created_at: string;
-			/**
-			 * Updated At
-			 * Format: date-time
-			 * @description When the session was last updated
-			 * @example 2026-01-19T14:45:00Z
-			 */
-			updated_at: string;
-		};
-		/**
-		 * UpdateSessionRequest
-		 * @description Request schema for updating a session.
-		 *
-		 *     All fields are optional - only provided fields are updated.
-		 */
-		UpdateSessionRequest: {
-			/**
-			 * Name
-			 * @description New session name
-			 * @example Updated Project Name
-			 */
-			name?: string | null;
-			/**
-			 * Description
-			 * @description New session description (empty string to clear)
-			 * @example Updated description
-			 */
-			description?: string | null;
-		};
-		/** ValidationError */
-		ValidationError: {
-			/** Location */
-			loc: (string | number)[];
-			/** Message */
-			msg: string;
-			/** Error Type */
-			type: string;
-		};
-	};
-	responses: never;
-	parameters: never;
-	requestBodies: never;
-	headers: never;
-	pathItems: never;
+    schemas: {
+        /**
+         * AddUrlRequest
+         * @description Request schema for adding an article via URL.
+         *
+         *     Design Decision: URL Validation
+         *     --------------------------------
+         *     Using Pydantic's HttpUrl type for validation because:
+         *     - Automatic scheme validation (http/https)
+         *     - Well-tested URL parsing
+         *     - Clear error messages for invalid URLs
+         *
+         *     The title field is optional and will be extracted from the page if not provided.
+         */
+        AddUrlRequest: {
+            /**
+             * Url
+             * Format: uri
+             * @description URL of the article to add
+             * @example https://arxiv.org/abs/2301.00001
+             */
+            url: string;
+            /**
+             * Title
+             * @description Optional title (auto-extracted if not provided)
+             * @example Attention Is All You Need
+             */
+            title?: string | null;
+        };
+        /**
+         * AdminReindexRequest
+         * @description Request to start admin reindex operation.
+         *
+         *     Attributes:
+         *         session_ids: Optional list of session IDs to reindex.
+         *                     If None, reindexes all sessions.
+         *         force: If True, reindexes even articles with status='completed'.
+         *               If False, only reindexes pending/failed embeddings.
+         *
+         *     Example:
+         *         Reindex all sessions:
+         *         >>> AdminReindexRequest(session_ids=None, force=True)
+         *
+         *         Reindex specific sessions:
+         *         >>> AdminReindexRequest(session_ids=[1, 2, 3], force=False)
+         */
+        AdminReindexRequest: {
+            /**
+             * Session Ids
+             * @description Session IDs to reindex (None = all sessions)
+             * @example [
+             *       1,
+             *       2,
+             *       3
+             *     ]
+             * @example null
+             */
+            session_ids?: number[] | null;
+            /**
+             * Force
+             * @description Force reindex even if status is 'completed'
+             * @default false
+             */
+            force: boolean;
+        };
+        /**
+         * AdminReindexResponse
+         * @description Response after starting admin reindex.
+         *
+         *     Contains all information needed to track reindex progress via SSE.
+         *
+         *     Attributes:
+         *         task_id: Unique task identifier (UUID)
+         *         total_sessions: Number of sessions being reindexed
+         *         total_articles: Number of articles being reindexed
+         *         progress_url: Full URL to SSE progress stream endpoint
+         *
+         *     Example:
+         *         >>> AdminReindexResponse(
+         *         ...     task_id="550e8400-e29b-41d4-a716-446655440000",
+         *         ...     total_sessions=5,
+         *         ...     total_articles=150,
+         *         ...     progress_url="/api/v1/admin/reindex/550e8400-.../progress"
+         *         ... )
+         */
+        AdminReindexResponse: {
+            /**
+             * Task Id
+             * @description Unique task identifier
+             */
+            task_id: string;
+            /**
+             * Total Sessions
+             * @description Number of sessions being reindexed
+             */
+            total_sessions: number;
+            /**
+             * Total Articles
+             * @description Number of articles being reindexed
+             */
+            total_articles: number;
+            /**
+             * Progress Url
+             * @description SSE progress stream endpoint URL
+             */
+            progress_url: string;
+        };
+        /**
+         * ArticleContentResponse
+         * @description Response schema for article extracted content.
+         *
+         *     Returns the extracted text content from the article.
+         *     Only available when extraction_status is 'completed'.
+         * @example {
+         *       "content_text": "Abstract: The dominant sequence transduction models...",
+         *       "extraction_status": "completed",
+         *       "id": 1,
+         *       "title": "Attention Is All You Need"
+         *     }
+         */
+        ArticleContentResponse: {
+            /**
+             * Id
+             * @description Article ID
+             */
+            id: number;
+            /**
+             * Title
+             * @description Article title
+             */
+            title?: string | null;
+            /**
+             * Content Text
+             * @description Extracted text content
+             */
+            content_text: string;
+            /**
+             * Extraction Status
+             * @description Extraction status
+             * @enum {string}
+             */
+            extraction_status: "pending" | "processing" | "completed" | "failed";
+        };
+        /**
+         * ArticleListResponse
+         * @description Response schema for listing articles in a session.
+         */
+        ArticleListResponse: {
+            /**
+             * Items
+             * @description List of articles
+             */
+            items: components["schemas"]["ArticleResponse"][];
+            /**
+             * Total
+             * @description Total number of articles in session
+             */
+            total: number;
+            /**
+             * Session Id
+             * @description Session ID
+             */
+            session_id: number;
+        };
+        /**
+         * ArticleResponse
+         * @description Response schema for a single article.
+         *
+         *     Used for both URL and file articles with appropriate fields populated.
+         * @example {
+         *       "created_at": "2026-01-19T10:00:00Z",
+         *       "extraction_status": "completed",
+         *       "has_content": true,
+         *       "id": 1,
+         *       "original_url": "https://arxiv.org/abs/2301.00001",
+         *       "session_id": 1,
+         *       "title": "Attention Is All You Need",
+         *       "type": "url",
+         *       "updated_at": "2026-01-19T10:30:00Z"
+         *     }
+         */
+        ArticleResponse: {
+            /**
+             * Id
+             * @description Unique article identifier
+             */
+            id: number;
+            /**
+             * Session Id
+             * @description Parent session ID
+             */
+            session_id: number;
+            /**
+             * Type
+             * @description Article type (url or file)
+             * @enum {string}
+             */
+            type: "url" | "file";
+            /**
+             * Original Url
+             * @description Source URL (for url type)
+             */
+            original_url?: string | null;
+            /**
+             * Original Filename
+             * @description Original filename (for file type)
+             */
+            original_filename?: string | null;
+            /**
+             * Title
+             * @description Article title
+             */
+            title?: string | null;
+            /**
+             * Extraction Status
+             * @description Content extraction status
+             * @enum {string}
+             */
+            extraction_status: "pending" | "processing" | "completed" | "failed";
+            /**
+             * Has Content
+             * @description Whether extracted content is available
+             * @default false
+             */
+            has_content: boolean;
+            /**
+             * Created At
+             * Format: date-time
+             * @description Creation timestamp
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             * @description Last update timestamp
+             */
+            updated_at: string;
+        };
+        /** Body_upload_article_file_api_v1_sessions__session_id__articles_upload_post */
+        Body_upload_article_file_api_v1_sessions__session_id__articles_upload_post: {
+            /**
+             * File
+             * Format: binary
+             * @description File to upload
+             */
+            file: string;
+        };
+        /**
+         * ChangeStatusRequest
+         * @description Request schema for changing session status.
+         *
+         *     Valid transitions:
+         *     - draft -> active, archived
+         *     - active -> completed, archived
+         *     - completed -> archived
+         *     - archived -> (none - cannot be changed)
+         */
+        ChangeStatusRequest: {
+            /**
+             * Status
+             * @description New status for the session
+             * @example active
+             * @enum {string}
+             */
+            status: "draft" | "active" | "completed" | "archived";
+        };
+        /**
+         * ChatHistoryResponse
+         * @description Response containing chat history for a session.
+         * @example {
+         *       "messages": [
+         *         {
+         *           "content": "What are embeddings?",
+         *           "created_at": "2026-01-19T12:00:00Z",
+         *           "id": 1,
+         *           "role": "user"
+         *         },
+         *         {
+         *           "content": "Embeddings are vector representations... [1]",
+         *           "created_at": "2026-01-19T12:00:01Z",
+         *           "id": 2,
+         *           "role": "assistant",
+         *           "sources": [
+         *             {
+         *               "article_id": 123,
+         *               "citation_index": 1,
+         *               "title": "..."
+         *             }
+         *           ]
+         *         }
+         *       ],
+         *       "session_id": 1,
+         *       "total_messages": 2
+         *     }
+         */
+        ChatHistoryResponse: {
+            /**
+             * Session Id
+             * @description Session ID
+             */
+            session_id: number;
+            /**
+             * Messages
+             * @description List of chat messages in chronological order
+             */
+            messages?: components["schemas"]["ChatMessageResponse"][];
+            /**
+             * Total Messages
+             * @description Total number of messages
+             */
+            total_messages: number;
+        };
+        /**
+         * ChatMessageResponse
+         * @description Single chat message in response.
+         */
+        ChatMessageResponse: {
+            /**
+             * Id
+             * @description Message ID
+             */
+            id: number;
+            /**
+             * Role
+             * @description Message role
+             * @enum {string}
+             */
+            role: "user" | "assistant";
+            /**
+             * Content
+             * @description Message content
+             */
+            content: string;
+            /**
+             * Sources
+             * @description Source citations (assistant messages only)
+             */
+            sources?: components["schemas"]["ChatSource"][] | null;
+            /**
+             * Created At
+             * Format: date-time
+             * @description When the message was created
+             */
+            created_at: string;
+        };
+        /**
+         * ChatRequest
+         * @description Request body for sending a chat message.
+         * @example {
+         *       "message": "What are the main topics covered in my saved articles?"
+         *     }
+         * @example {
+         *       "message": "Summarize what I've read about vector databases."
+         *     }
+         */
+        ChatRequest: {
+            /**
+             * Message
+             * @description User's question or message
+             * @example What are the key points about embeddings?
+             */
+            message: string;
+        };
+        /**
+         * ChatResponse
+         * @description Response from sending a chat message.
+         *
+         *     Contains the assistant's response with sources and usage metadata.
+         * @example {
+         *       "content": "Based on your saved articles, embeddings are... [1]",
+         *       "created_at": "2026-01-19T12:00:00Z",
+         *       "llm_model": "gpt-4o-mini",
+         *       "llm_provider": "openai",
+         *       "message_id": 42,
+         *       "retrieval_metadata": {
+         *         "chunks_cited": 2,
+         *         "chunks_retrieved": 5,
+         *         "search_mode": "hybrid",
+         *         "search_timing_ms": 150.5
+         *       },
+         *       "sources": [
+         *         {
+         *           "article_id": 123,
+         *           "citation_index": 1,
+         *           "title": "Understanding Embeddings",
+         *           "url": "https://example.com/embeddings"
+         *         }
+         *       ],
+         *       "tokens_used": 1250
+         *     }
+         */
+        ChatResponse: {
+            /**
+             * Message Id
+             * @description ID of the assistant's response message
+             */
+            message_id: number;
+            /**
+             * Content
+             * @description Assistant's response text
+             */
+            content: string;
+            /**
+             * Sources
+             * @description Sources cited in the response
+             */
+            sources?: components["schemas"]["ChatSource"][];
+            /**
+             * Llm Provider
+             * @description LLM provider used
+             * @example openai
+             * @example anthropic
+             */
+            llm_provider?: string | null;
+            /**
+             * Llm Model
+             * @description Specific model used
+             * @example gpt-4o-mini
+             * @example claude-sonnet-4-5-20241022
+             */
+            llm_model?: string | null;
+            /**
+             * Tokens Used
+             * @description Total tokens consumed
+             */
+            tokens_used?: number | null;
+            /**
+             * Created At
+             * Format: date-time
+             * @description When the response was generated
+             */
+            created_at: string;
+            /** @description Search and retrieval context for this response (P2 enhancement) */
+            retrieval_metadata?: components["schemas"]["RetrievalMetadata"] | null;
+        };
+        /**
+         * ChatSource
+         * @description Source citation in chat response with full traceability.
+         *
+         *     Represents a reference to an article chunk that was used
+         *     to generate part of the response.
+         *
+         *     Design Decision: Full content vs. excerpt
+         *     - Previously returned 200-char excerpts (insufficient for verification)
+         *     - Now returns full chunk content to enable answer grounding verification
+         *     - Trade-off: Larger response size vs. user transparency
+         */
+        ChatSource: {
+            /**
+             * Citation Index
+             * @description Citation number [1], [2], etc.
+             * @example 1
+             * @example 2
+             */
+            citation_index: number;
+            /**
+             * Article Id
+             * @description ID of the source article
+             */
+            article_id: number;
+            /**
+             * Chunk Id
+             * @description ID of the specific chunk
+             */
+            chunk_id?: string | null;
+            /**
+             * Title
+             * @description Article title
+             * @example Introduction to RAG Systems
+             */
+            title?: string | null;
+            /**
+             * Url
+             * @description Article URL
+             * @example https://example.com/article
+             */
+            url?: string | null;
+            /**
+             * Content
+             * @description Full chunk content used for this citation (not truncated)
+             * @example JWT authentication uses tokens for stateless authorization. The token contains encoded user claims and a signature that verifies authenticity without server-side session storage.
+             */
+            content?: string | null;
+            /**
+             * Relevance Score
+             * @description Search relevance score (RRF combined score)
+             * @example 0.0156
+             */
+            relevance_score?: number | null;
+            /**
+             * Search Method
+             * @description Search method used: semantic, keyword, or hybrid
+             * @example hybrid
+             */
+            search_method?: string | null;
+            /**
+             * Dense Rank
+             * @description Rank from semantic/dense vector search
+             * @example 2
+             */
+            dense_rank?: number | null;
+            /**
+             * Sparse Rank
+             * @description Rank from keyword/sparse BM25 search
+             * @example 1
+             */
+            sparse_rank?: number | null;
+        };
+        /**
+         * CreateSessionRequest
+         * @description Request schema for creating a new session.
+         *
+         *     All new sessions start in 'draft' status.
+         */
+        CreateSessionRequest: {
+            /**
+             * Name
+             * @description Session display name
+             * @example My Research Project
+             */
+            name: string;
+            /**
+             * Description
+             * @description Optional session description
+             * @example Research on machine learning algorithms
+             */
+            description?: string | null;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /**
+         * HealthResponse
+         * @description Health check response following API contract specification.
+         *
+         *     See: docs/auxiliary_info/initial_api_contract_instructions.md
+         *
+         *     Design Decision: Using Literal types for status enums
+         *
+         *     Rationale: Literal types provide compile-time type safety and better
+         *     IDE autocomplete compared to string constants or enums. FastAPI's OpenAPI
+         *     generation correctly translates Literal to enum in the spec.
+         *
+         *     Trade-offs:
+         *     - Type Safety: Literal catches typos at type-check time vs runtime Enum
+         *     - OpenAPI: Auto-generates enum constraints in OpenAPI spec
+         *     - Simplicity: No need to import/define separate Enum classes
+         * @example {
+         *       "database": "connected",
+         *       "status": "ok",
+         *       "version": "1.0.0"
+         *     }
+         */
+        HealthResponse: {
+            /**
+             * Status
+             * @description Service health status
+             * @example ok
+             * @enum {string}
+             */
+            status: "ok" | "degraded" | "error";
+            /**
+             * Version
+             * @description API version
+             * @example 1.0.0
+             */
+            version: string;
+            /**
+             * Database
+             * @description Database connection status
+             * @example connected
+             * @enum {string}
+             */
+            database: "connected" | "disconnected";
+        };
+        /**
+         * ProviderConfigResponse
+         * @description Current provider configuration with available options.
+         *
+         *     Design Decision: Separate "current" and "available" providers
+         *
+         *     Rationale: Admin panel needs to know:
+         *     1. Which providers are currently selected (embedding_provider, llm_provider)
+         *     2. Which providers are available (have API keys configured in .env)
+         *
+         *     This allows the UI to:
+         *     - Display current selection
+         *     - Disable provider options that aren't configured
+         *     - Show warnings if API keys are missing
+         *
+         *     Trade-offs:
+         *     - More data in response, but prevents UI errors
+         *     - Exposes which providers have keys (acceptable for admin panel)
+         */
+        ProviderConfigResponse: {
+            /**
+             * Embedding Provider
+             * @description Currently selected embedding provider
+             * @example openai
+             * @enum {string}
+             */
+            embedding_provider: "openai" | "ollama";
+            /**
+             * Embedding Provider Available
+             * @description List of available embedding providers (have API keys configured)
+             * @example [
+             *       "openai",
+             *       "ollama"
+             *     ]
+             */
+            embedding_provider_available: string[];
+            /**
+             * Llm Provider
+             * @description Currently selected LLM provider
+             * @example openai
+             * @enum {string}
+             */
+            llm_provider: "openai" | "anthropic";
+            /**
+             * Llm Provider Available
+             * @description List of available LLM providers (have API keys configured)
+             * @example [
+             *       "openai",
+             *       "anthropic"
+             *     ]
+             */
+            llm_provider_available: string[];
+        };
+        /**
+         * ReindexResponse
+         * @description Response schema for session reindex operation.
+         *
+         *     Returned when manually triggering reindexing of articles in a session.
+         *     This operation queues articles for embedding that were previously extracted
+         *     but failed to be indexed (e.g., before auto-embedding was enabled).
+         * @example {
+         *       "article_ids": [
+         *         39,
+         *         40,
+         *         41
+         *       ],
+         *       "articles_queued": 3,
+         *       "session_id": 179
+         *     }
+         */
+        ReindexResponse: {
+            /**
+             * Session Id
+             * @description ID of the session that was reindexed
+             * @example 179
+             */
+            session_id: number;
+            /**
+             * Articles Queued
+             * @description Number of articles queued for reindexing
+             * @example 3
+             */
+            articles_queued: number;
+            /**
+             * Article Ids
+             * @description List of article IDs queued for reindexing
+             * @example [
+             *       39,
+             *       40,
+             *       41
+             *     ]
+             */
+            article_ids: number[];
+        };
+        /**
+         * RetrievalMetadata
+         * @description Metadata about the retrieval process for transparency.
+         *
+         *     Provides visibility into the search and retrieval process to help users
+         *     understand how the answer was generated and why certain sources were selected.
+         *
+         *     Design Decision: Transparency over simplicity
+         *     - Exposes search internals to users for better trust and debugging
+         *     - Allows frontend to show "N chunks retrieved, M cited" summary
+         *     - Enables understanding of search timing and performance
+         *     - Trade-off: Slightly larger response payload vs. user insight
+         */
+        RetrievalMetadata: {
+            /**
+             * Chunks Retrieved
+             * @description Total number of chunks retrieved from search
+             * @example 5
+             * @example 10
+             */
+            chunks_retrieved: number;
+            /**
+             * Chunks Cited
+             * @description Number of chunks actually cited in the response
+             * @example 2
+             * @example 3
+             */
+            chunks_cited: number;
+            /**
+             * Search Mode
+             * @description Search mode used: hybrid, semantic, or keyword
+             * @example hybrid
+             */
+            search_mode: string;
+            /**
+             * Search Timing Ms
+             * @description Time taken for search in milliseconds
+             * @example 150.5
+             */
+            search_timing_ms?: number | null;
+            /**
+             * Total Chunks In Session
+             * @description Total indexed chunks available in this session
+             * @example 50
+             * @example 100
+             */
+            total_chunks_in_session?: number | null;
+        };
+        /**
+         * SearchMode
+         * @description Search mode selection.
+         *
+         *     Values:
+         *         DENSE: Vector search only (semantic similarity)
+         *         SPARSE: BM25 search only (keyword matching)
+         *         HYBRID: Combined search with RRF fusion (best quality)
+         * @enum {string}
+         */
+        SearchMode: "dense" | "sparse" | "hybrid";
+        /**
+         * SearchRequest
+         * @description Search request parameters.
+         *
+         *     Validates and constrains search parameters according to best practices
+         *     from research:
+         *     - Query length: 1-1000 characters (typical queries < 200 chars)
+         *     - Top-K: 1-50 results (10-20 optimal for synthesis)
+         *     - Search mode: Hybrid recommended for best quality
+         *
+         *     Examples:
+         *         >>> request = SearchRequest(
+         *         ...     query="How does JWT authentication work?",
+         *         ...     top_k=10,
+         *         ...     search_mode=SearchMode.HYBRID
+         *         ... )
+         */
+        SearchRequest: {
+            /**
+             * Query
+             * @description Natural language search query
+             * @example How does authentication work?
+             */
+            query: string;
+            /**
+             * Top K
+             * @description Number of results to return (1-50)
+             * @default 10
+             */
+            top_k: number;
+            /**
+             * Include Content
+             * @description Include chunk content in results
+             * @default true
+             */
+            include_content: boolean;
+            /**
+             * @description Search mode: dense, sparse, or hybrid
+             * @default hybrid
+             */
+            search_mode: components["schemas"]["SearchMode"];
+        };
+        /**
+         * SearchResponse
+         * @description Search response with results and metadata.
+         *
+         *     Follows API contract specification for knowledge query endpoint.
+         *
+         *     Performance Metrics:
+         *     - timing_ms: Total search execution time
+         *     - total_chunks_searched: Number of chunks in session index
+         *
+         *     Design Decision: Include timing for monitoring
+         *     - Helps track search performance over time
+         *     - Identifies slow queries for optimization
+         *     - Typical latency: <200ms for hybrid search
+         * @example {
+         *       "query": "How does authentication work?",
+         *       "results": [
+         *         {
+         *           "article_id": 42,
+         *           "chunk_id": "doc_abc123:chunk_5",
+         *           "content": "Authentication uses JWT tokens...",
+         *           "dense_rank": 2,
+         *           "score": 0.0156,
+         *           "source_title": "Authentication Guide",
+         *           "source_url": "https://docs.example.com/auth",
+         *           "sparse_rank": 1
+         *         }
+         *       ],
+         *       "search_mode": "hybrid",
+         *       "timing_ms": 127,
+         *       "total_chunks_searched": 1547
+         *     }
+         */
+        SearchResponse: {
+            /**
+             * Query
+             * @description Original search query
+             */
+            query: string;
+            /**
+             * Results
+             * @description Ranked search results
+             */
+            results?: components["schemas"]["SearchResult"][];
+            /**
+             * Total Chunks Searched
+             * @description Total chunks in session index
+             */
+            total_chunks_searched: number;
+            /** @description Search mode used */
+            search_mode: components["schemas"]["SearchMode"];
+            /**
+             * Timing Ms
+             * @description Search execution time in milliseconds
+             */
+            timing_ms: number;
+        };
+        /**
+         * SearchResult
+         * @description Individual search result with source attribution.
+         *
+         *     Includes provenance information for citation support.
+         *     Rank information from both dense and sparse search allows
+         *     understanding which retrieval method found this result.
+         *
+         *     Design Decision: Include ranks for transparency
+         *     - dense_rank: Position in semantic search results
+         *     - sparse_rank: Position in keyword search results
+         *     - score: Combined RRF score (higher = more relevant)
+         */
+        SearchResult: {
+            /**
+             * Chunk Id
+             * @description Unique chunk identifier (doc_id:chunk_index)
+             * @example doc_abc123:chunk_5
+             */
+            chunk_id: string;
+            /**
+             * Article Id
+             * @description Source article ID
+             */
+            article_id: number;
+            /**
+             * Content
+             * @description Chunk text content (if include_content=true)
+             */
+            content?: string | null;
+            /**
+             * Score
+             * @description Combined relevance score (RRF)
+             */
+            score: number;
+            /**
+             * Source Url
+             * @description Original article URL
+             */
+            source_url?: string | null;
+            /**
+             * Source Title
+             * @description Article title
+             */
+            source_title?: string | null;
+            /**
+             * Dense Rank
+             * @description Rank from dense search (if applicable)
+             */
+            dense_rank?: number | null;
+            /**
+             * Sparse Rank
+             * @description Rank from sparse search (if applicable)
+             */
+            sparse_rank?: number | null;
+        };
+        /**
+         * SessionListResponse
+         * @description Response schema for listing sessions.
+         *
+         *     Includes pagination metadata for future expansion.
+         * @example {
+         *       "sessions": [
+         *         {
+         *           "article_count": 10,
+         *           "created_at": "2026-01-15T10:30:00Z",
+         *           "description": "First project",
+         *           "id": 1,
+         *           "name": "Research Project A",
+         *           "status": "active",
+         *           "updated_at": "2026-01-19T14:45:00Z"
+         *         }
+         *       ],
+         *       "total": 1
+         *     }
+         */
+        SessionListResponse: {
+            /**
+             * Sessions
+             * @description List of sessions
+             */
+            sessions: components["schemas"]["SessionResponse"][];
+            /**
+             * Total
+             * @description Total number of sessions (excluding deleted)
+             * @example 25
+             */
+            total: number;
+        };
+        /**
+         * SessionResponse
+         * @description Response schema for a single session.
+         *
+         *     This is the canonical session representation in the API.
+         *     Used for all endpoints that return session data.
+         * @example {
+         *       "article_count": 15,
+         *       "created_at": "2026-01-15T10:30:00Z",
+         *       "description": "Collecting papers on deep learning",
+         *       "id": 1,
+         *       "name": "Machine Learning Research",
+         *       "status": "active",
+         *       "updated_at": "2026-01-19T14:45:00Z"
+         *     }
+         */
+        SessionResponse: {
+            /**
+             * Id
+             * @description Unique session identifier
+             * @example 1
+             */
+            id: number;
+            /**
+             * Name
+             * @description Session display name
+             * @example My Research Project
+             */
+            name: string;
+            /**
+             * Description
+             * @description Session description
+             * @example Research on machine learning algorithms
+             */
+            description?: string | null;
+            /**
+             * Status
+             * @description Current session status
+             * @example active
+             * @enum {string}
+             */
+            status: "draft" | "active" | "completed" | "archived";
+            /**
+             * Article Count
+             * @description Number of articles in this session
+             * @default 0
+             * @example 12
+             */
+            article_count: number;
+            /**
+             * Created At
+             * Format: date-time
+             * @description When the session was created
+             * @example 2026-01-15T10:30:00Z
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             * @description When the session was last updated
+             * @example 2026-01-19T14:45:00Z
+             */
+            updated_at: string;
+        };
+        /**
+         * TaskStatusResponse
+         * @description Current status of a background task.
+         *
+         *     This is a snapshot of task state for polling clients.
+         *     For real-time updates, use SSE endpoint instead.
+         *
+         *     Attributes:
+         *         task_id: Unique task identifier
+         *         task_type: Type of task (reindex, export, etc.)
+         *         status: Current task status
+         *         total_items: Total number of items to process
+         *         processed_items: Number of items processed so far
+         *         failed_items: Number of items that failed
+         *         progress_percent: Progress percentage (0-100)
+         *         message: Human-readable status message
+         *         errors: List of errors encountered
+         *
+         *     Example:
+         *         >>> TaskStatusResponse(
+         *         ...     task_id="550e8400-...",
+         *         ...     task_type="reindex",
+         *         ...     status="running",
+         *         ...     total_items=100,
+         *         ...     processed_items=50,
+         *         ...     failed_items=2,
+         *         ...     progress_percent=50,
+         *         ...     message="Processing article 50 of 100",
+         *         ...     errors=[{"item_id": "123", "error": "timeout"}]
+         *         ... )
+         */
+        TaskStatusResponse: {
+            /**
+             * Task Id
+             * @description Unique task identifier
+             */
+            task_id: string;
+            /**
+             * Task Type
+             * @description Type of task (reindex, export, etc.)
+             */
+            task_type: string;
+            /**
+             * Status
+             * @description Current task status (pending, running, completed, failed)
+             */
+            status: string;
+            /**
+             * Total Items
+             * @description Total number of items to process
+             */
+            total_items: number;
+            /**
+             * Processed Items
+             * @description Number of items processed so far
+             */
+            processed_items: number;
+            /**
+             * Failed Items
+             * @description Number of items that failed
+             */
+            failed_items: number;
+            /**
+             * Progress Percent
+             * @description Progress percentage (0-100)
+             */
+            progress_percent: number;
+            /**
+             * Message
+             * @description Human-readable status message
+             */
+            message?: string | null;
+            /**
+             * Errors
+             * @description List of errors encountered
+             */
+            errors?: {
+                [key: string]: string;
+            }[];
+        };
+        /**
+         * UpdateEmbeddingProviderRequest
+         * @description Request to update embedding provider.
+         *
+         *     Design Decision: Explicit reindex confirmation
+         *
+         *     Rationale: Changing embedding provider requires reindexing all documents
+         *     because different providers use different embedding dimensions:
+         *     - OpenAI text-embedding-3-small: 1536 dimensions
+         *     - Ollama nomic-embed-text: 1024 dimensions
+         *
+         *     The confirm_reindex flag forces admins to acknowledge this:
+         *     - False: Provider updated, but warning returned
+         *     - True: Provider updated and reindex triggered
+         *
+         *     Trade-offs:
+         *     - Requires extra step, but prevents accidental data loss
+         *     - Explicit is better than implicit for destructive operations
+         */
+        UpdateEmbeddingProviderRequest: {
+            /**
+             * Provider
+             * @description Embedding provider to switch to
+             * @example openai
+             * @enum {string}
+             */
+            provider: "openai" | "ollama";
+            /**
+             * Confirm Reindex
+             * @description Confirm that you want to trigger reindexing (required if dimension changes)
+             * @default false
+             * @example false
+             */
+            confirm_reindex: boolean;
+        };
+        /**
+         * UpdateEmbeddingProviderResponse
+         * @description Response after updating embedding provider.
+         *
+         *     Design Decision: Explicit feedback on reindex status
+         *
+         *     Rationale: Admin needs to know:
+         *     1. Was the provider changed?
+         *     2. Was reindexing triggered?
+         *     3. Is there a warning (dimension mismatch but no reindex)?
+         *
+         *     This allows the UI to:
+         *     - Show success/warning messages
+         *     - Display reindex progress
+         *     - Warn about dimension mismatches
+         */
+        UpdateEmbeddingProviderResponse: {
+            /**
+             * Provider
+             * @description The new embedding provider
+             * @example openai
+             */
+            provider: string;
+            /**
+             * Reindex Triggered
+             * @description Whether reindexing was triggered
+             * @example true
+             */
+            reindex_triggered: boolean;
+            /**
+             * Warning
+             * @description Warning message if reindex is needed but not triggered
+             * @example null
+             * @example Dimension changed from 1024 to 1536. Reindex required.
+             */
+            warning?: string | null;
+        };
+        /**
+         * UpdateLlmProviderRequest
+         * @description Request to update LLM provider.
+         *
+         *     Design Decision: No reindex needed for LLM changes
+         *
+         *     Rationale: LLM provider only affects text generation, not embeddings.
+         *     Switching between OpenAI and Anthropic doesn't require reindexing
+         *     because the vector database remains unchanged.
+         *
+         *     Trade-offs:
+         *     - Simpler than embedding provider update
+         *     - No confirmation needed (non-destructive operation)
+         */
+        UpdateLlmProviderRequest: {
+            /**
+             * Provider
+             * @description LLM provider to switch to
+             * @example openai
+             * @enum {string}
+             */
+            provider: "openai" | "anthropic";
+        };
+        /**
+         * UpdateLlmProviderResponse
+         * @description Response after updating LLM provider.
+         *
+         *     Simple response confirming the provider change.
+         */
+        UpdateLlmProviderResponse: {
+            /**
+             * Provider
+             * @description The new LLM provider
+             * @example openai
+             */
+            provider: string;
+        };
+        /**
+         * UpdateSessionRequest
+         * @description Request schema for updating a session.
+         *
+         *     All fields are optional - only provided fields are updated.
+         *
+         *     To distinguish between "field not sent" and "field explicitly set to empty",
+         *     we use model_config to exclude unset fields from model_dump().
+         */
+        UpdateSessionRequest: {
+            /**
+             * Name
+             * @description New session name
+             * @example Updated Project Name
+             */
+            name?: string | null;
+            /**
+             * Description
+             * @description New session description (empty string to clear)
+             * @example Updated description
+             */
+            description?: string | null;
+        };
+        /**
+         * UploadFileResponse
+         * @description Response schema after file upload.
+         *
+         *     Returned immediately after upload, before content extraction.
+         * @example {
+         *       "created_at": "2026-01-19T10:00:00Z",
+         *       "extraction_status": "pending",
+         *       "filename": "research_paper.pdf",
+         *       "id": 42,
+         *       "size_bytes": 1048576
+         *     }
+         */
+        UploadFileResponse: {
+            /**
+             * Id
+             * @description Article ID
+             */
+            id: number;
+            /**
+             * Filename
+             * @description Original filename
+             */
+            filename: string;
+            /**
+             * Size Bytes
+             * @description File size in bytes
+             */
+            size_bytes: number;
+            /**
+             * Extraction Status
+             * @description Content extraction status
+             * @default pending
+             * @enum {string}
+             */
+            extraction_status: "pending" | "processing" | "completed" | "failed";
+            /**
+             * Created At
+             * Format: date-time
+             * @description Upload timestamp
+             */
+            created_at: string;
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-	health_check_health_get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Service is healthy or degraded */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HealthResponse'];
-				};
-			};
-		};
-	};
-	list_sessions_api_v1_sessions_get: {
-		parameters: {
-			query?: {
-				/** @description Filter by session status */
-				status?: ('draft' | 'active' | 'completed' | 'archived') | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description List of sessions */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['SessionListResponse'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_session_api_v1_sessions_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['CreateSessionRequest'];
-			};
-		};
-		responses: {
-			/** @description Session created successfully */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['SessionResponse'];
-				};
-			};
-			/** @description Validation error */
-			400: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_session_api_v1_sessions__session_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				session_id: number;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Session found */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['SessionResponse'];
-				};
-			};
-			/** @description Session not found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	delete_session_api_v1_sessions__session_id__delete: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				session_id: number;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Session deleted */
-			204: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Session not found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	update_session_api_v1_sessions__session_id__patch: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				session_id: number;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['UpdateSessionRequest'];
-			};
-		};
-		responses: {
-			/** @description Session updated */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['SessionResponse'];
-				};
-			};
-			/** @description Validation error */
-			400: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Session not found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	change_session_status_api_v1_sessions__session_id__status_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				session_id: number;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['ChangeStatusRequest'];
-			};
-		};
-		responses: {
-			/** @description Status changed */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['SessionResponse'];
-				};
-			};
-			/** @description Invalid status transition */
-			400: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Session not found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	root__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': {
-						[key: string]: string;
-					};
-				};
-			};
-		};
-	};
+    health_check_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Service is healthy or degraded */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HealthResponse"];
+                };
+            };
+        };
+    };
+    list_sessions_api_v1_sessions_get: {
+        parameters: {
+            query?: {
+                /** @description Filter by session status */
+                status?: ("draft" | "active" | "completed" | "archived") | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of sessions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_session_api_v1_sessions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Session created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionResponse"];
+                };
+            };
+            /** @description Validation error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_session_api_v1_sessions__session_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Session found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionResponse"];
+                };
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_session_api_v1_sessions__session_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Session deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_session_api_v1_sessions__session_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSessionRequest"];
+            };
+        };
+        responses: {
+            /** @description Session updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionResponse"];
+                };
+            };
+            /** @description Validation error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    change_session_status_api_v1_sessions__session_id__status_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeStatusRequest"];
+            };
+        };
+        responses: {
+            /** @description Status changed */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SessionResponse"];
+                };
+            };
+            /** @description Invalid status transition */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reindex_session_api_v1_sessions__session_id__reindex_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Articles queued for reindexing */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReindexResponse"];
+                };
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_url_article_api_v1_sessions__session_id__articles_url_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddUrlRequest"];
+            };
+        };
+        responses: {
+            /** @description Article added successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ArticleResponse"];
+                };
+            };
+            /** @description Validation error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_article_file_api_v1_sessions__session_id__articles_upload_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_article_file_api_v1_sessions__session_id__articles_upload_post"];
+            };
+        };
+        responses: {
+            /** @description File uploaded successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UploadFileResponse"];
+                };
+            };
+            /** @description Validation error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description File too large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unsupported file type */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_articles_api_v1_sessions__session_id__articles_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of articles */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ArticleListResponse"];
+                };
+            };
+            /** @description Session not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_article_api_v1_sessions__session_id__articles__article_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+                article_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Article found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ArticleResponse"];
+                };
+            };
+            /** @description Article not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_article_api_v1_sessions__session_id__articles__article_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+                article_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Article deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Article not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_article_content_api_v1_sessions__session_id__articles__article_id__content_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+                article_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Content retrieved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ArticleContentResponse"];
+                };
+            };
+            /** @description Content not available (extraction not completed) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Article not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    search_session_api_v1_sessions__session_id__search_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SearchRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SearchResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    search_stats_api_v1_sessions__session_id__search_stats_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string | number | string[];
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    send_chat_message_api_v1_sessions__session_id__chat_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChatRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_chat_history_api_v1_sessions__session_id__chat_history_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatHistoryResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    clear_chat_history_api_v1_sessions__session_id__chat_history_delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                session_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_admin_reindex_api_v1_admin_reindex_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminReindexRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminReindexResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    stream_reindex_progress_api_v1_admin_reindex__task_id__progress_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                task_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_reindex_status_api_v1_admin_reindex__task_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                task_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaskStatusResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancel_reindex_api_v1_admin_reindex__task_id__cancel_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                task_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_provider_config_api_v1_settings_providers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderConfigResponse"];
+                };
+            };
+        };
+    };
+    update_embedding_provider_endpoint_api_v1_settings_providers_embedding_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateEmbeddingProviderRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateEmbeddingProviderResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_llm_provider_endpoint_api_v1_settings_providers_llm_patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateLlmProviderRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateLlmProviderResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    root__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
+    };
 }
