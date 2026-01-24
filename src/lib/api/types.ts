@@ -88,9 +88,16 @@ export interface ChatRequest {
 }
 
 export interface ChatSource {
+	citation_index: number;
 	article_id: number;
+	chunk_id: string | null;
 	title: string | null;
 	url: string | null;
+	content: string | null;
+	relevance_score: number | null;
+	search_method: string | null;
+	dense_rank: number | null;
+	sparse_rank: number | null;
 }
 
 export interface ChatResponse {

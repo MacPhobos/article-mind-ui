@@ -8,8 +8,11 @@
 		content: string;
 		sources?: ChatSource[] | null;
 		timestamp: string;
+		onCitationClick?: (citationIndex: number) => void;
+		highlightedCitation?: number | null;
 	}
-	let { role, content, sources, timestamp }: Props = $props();
+	let { role, content, sources, timestamp, onCitationClick, highlightedCitation = null }: Props =
+		$props();
 
 	// Format timestamp
 	let formattedTime = $derived(
@@ -23,6 +26,7 @@
 	interface ContentSegment {
 		text: string;
 		isCitation: boolean;
+		citationIndex?: number;
 	}
 
 	let contentSegments = $derived<ContentSegment[]>(
@@ -31,19 +35,45 @@
 			: content
 					.split(/(\[\d+\])/g)
 					.filter((part) => part.length > 0)
-					.map((part) => ({
-						text: part,
-						isCitation: /^\[\d+\]$/.test(part)
-					}))
+					.map((part) => {
+						const match = part.match(/^\[(\d+)\]$/);
+						return {
+							text: part,
+							isCitation: match !== null,
+							citationIndex: match ? parseInt(match[1], 10) : undefined
+						};
+					})
 	);
+
+	/**
+	 * Handle citation click
+	 */
+	function handleCitationClick(citationIndex: number) {
+		if (onCitationClick) {
+			onCitationClick(citationIndex);
+		}
+	}
 </script>
 
 <div class="message" class:user={role === 'user'} class:assistant={role === 'assistant'}>
 	<div class="bubble">
 		<div class="content">
 			{#each contentSegments as segment, i (i)}
-				{#if segment.isCitation}
-					<span class="citation">{segment.text}</span>
+				{#if segment.isCitation && segment.citationIndex}
+					<span
+						class="citation"
+						onclick={() => handleCitationClick(segment.citationIndex!)}
+						role="button"
+						tabindex="0"
+						onkeydown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								handleCitationClick(segment.citationIndex!);
+							}
+						}}
+					>
+						{segment.text}
+					</span>
 				{:else}
 					{segment.text}
 				{/if}
@@ -51,7 +81,7 @@
 		</div>
 
 		{#if sources && sources.length > 0}
-			<SourceCitations {sources} />
+			<SourceCitations {sources} {highlightedCitation} />
 		{/if}
 	</div>
 

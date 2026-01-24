@@ -17,6 +17,7 @@
 	let isSending = $state(false);
 	let error = $state<string | null>(null);
 	let messagesContainer: HTMLDivElement | null = $state(null);
+	let highlightedCitation = $state<number | null>(null);
 
 	// Load chat history on mount
 	onMount(async () => {
@@ -107,6 +108,18 @@
 			}
 		}, 100);
 	}
+
+	/**
+	 * Handle citation click - highlight the source and auto-clear after 2s
+	 */
+	function handleCitationClick(citationIndex: number) {
+		highlightedCitation = citationIndex;
+
+		// Clear highlight after 2 seconds
+		setTimeout(() => {
+			highlightedCitation = null;
+		}, 2000);
+	}
 </script>
 
 <div class="chat-container">
@@ -139,6 +152,8 @@
 					content={message.content}
 					sources={message.sources}
 					timestamp={message.created_at}
+					onCitationClick={handleCitationClick}
+					{highlightedCitation}
 				/>
 			{/each}
 		{/if}

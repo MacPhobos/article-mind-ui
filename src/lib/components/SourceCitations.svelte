@@ -1,14 +1,56 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { ChatSource } from '$lib/api/types';
 
 	// Props
 	interface Props {
 		sources: ChatSource[];
+		highlightedCitation?: number | null;
 	}
-	let { sources }: Props = $props();
+	let { sources, highlightedCitation = null }: Props = $props();
 
 	// State
 	let isExpanded = $state(false);
+	let sourceRefs: Map<number, HTMLLIElement> = new Map();
+
+	/**
+	 * Watch for highlighted citation changes and auto-expand/scroll
+	 */
+	$effect(() => {
+		if (highlightedCitation !== null) {
+			handleCitationHighlight(highlightedCitation);
+		}
+	});
+
+	/**
+	 * Handle highlighting and scrolling to a citation
+	 */
+	async function handleCitationHighlight(citationIndex: number) {
+		// Auto-expand if collapsed
+		if (!isExpanded) {
+			isExpanded = true;
+			await tick(); // Wait for DOM update
+		}
+
+		// Scroll to highlighted source after a brief delay to allow expansion animation
+		setTimeout(() => {
+			const sourceElement = sourceRefs.get(citationIndex);
+			if (sourceElement) {
+				sourceElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			}
+		}, 100);
+	}
+
+	/**
+	 * Store ref for each source element
+	 */
+	function setSourceRef(citationIndex: number, element: HTMLLIElement | null) {
+		if (element) {
+			sourceRefs.set(citationIndex, element);
+		} else {
+			sourceRefs.delete(citationIndex);
+		}
+	}
 </script>
 
 <div class="sources">
@@ -23,9 +65,12 @@
 
 	{#if isExpanded}
 		<ul class="sources-list">
-			{#each sources as source (source.article_id)}
-				<li>
-					<span class="citation-number">[{source.article_id}]</span>
+			{#each sources as source (source.citation_index)}
+				<li
+					bind:this={(el) => setSourceRef(source.citation_index, el)}
+					class:highlighted={highlightedCitation === source.citation_index}
+				>
+					<span class="citation-number">[{source.citation_index}]</span>
 					<div class="source-details">
 						{#if source.url}
 							<a href={source.url} target="_blank" rel="noopener noreferrer external">
@@ -82,6 +127,24 @@
 		display: flex;
 		gap: 0.5rem;
 		font-size: 0.8125rem;
+		padding: 0.5rem;
+		border-radius: 4px;
+		transition: background-color 0.3s ease;
+	}
+
+	.sources-list li.highlighted {
+		background-color: #dbeafe;
+		animation: pulse 0.5s ease-in-out;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			background-color: #dbeafe;
+		}
+		50% {
+			background-color: #bfdbfe;
+		}
 	}
 
 	.citation-number {
