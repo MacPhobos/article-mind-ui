@@ -42,14 +42,15 @@
 	}
 
 	/**
-	 * Store ref for each source element
+	 * Svelte action to store ref for each source element
 	 */
-	function setSourceRef(citationIndex: number, element: HTMLLIElement | null) {
-		if (element) {
-			sourceRefs.set(citationIndex, element);
-		} else {
-			sourceRefs.delete(citationIndex);
-		}
+	function sourceRef(node: HTMLLIElement, citationIndex: number) {
+		sourceRefs.set(citationIndex, node);
+		return {
+			destroy() {
+				sourceRefs.delete(citationIndex);
+			}
+		};
 	}
 </script>
 
@@ -67,7 +68,7 @@
 		<ul class="sources-list">
 			{#each sources as source (source.citation_index)}
 				<li
-					bind:this={(el) => setSourceRef(source.citation_index, el)}
+					use:sourceRef={source.citation_index}
 					class:highlighted={highlightedCitation === source.citation_index}
 				>
 					<span class="citation-number">[{source.citation_index}]</span>
